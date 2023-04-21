@@ -26,7 +26,18 @@ void Label::setFont(std::string path, int size)
 	font = TTF_OpenFont(path.c_str(), size);
 }
 
-bool Button::draw(SDL_Texture* texture)
+bool Button::draw(SDL_Texture* texture, SDL_Point pos, SDL_FPoint pivot)
 {
-
+	SDL_Rect rect{ pos.x, pos.y};
+	SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
+	rect.x -= static_cast<int>(rect.w * pivot.x);
+	rect.y -= static_cast<int>(rect.h * pivot.y);
+	if (SDL_PointInRect(&Core::mouse, &rect))
+		SDL_SetTextureColorMod(texture, 0xf0, 0xf0, 0xf0);
+	if (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT)
+	{
+		SDL_SetTextureColorMod(texture, 0x40, 0x40, 0x40);
+		return true;
+	}
+	return false;
 }

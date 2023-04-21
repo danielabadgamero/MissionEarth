@@ -16,7 +16,12 @@ namespace Label
 
 namespace Button
 {
-	bool draw(SDL_Texture*);
+	bool draw(SDL_Texture*, SDL_Point, SDL_FPoint);
+}
+
+namespace Image
+{
+
 }
 
 #endif
