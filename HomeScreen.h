@@ -3,9 +3,11 @@
 
 #include "Screen.h"
 
-class Home : private Screen
+class HomeScreen : public Screen
 {
-
+private:
+public:
+	void draw() const override;
 };
 
 #endif

@@ -148,6 +148,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="HomeScreen.h" />
     <ClInclude Include="Label.h" />
+    <ClInclude Include="Screen.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

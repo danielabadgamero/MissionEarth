@@ -4,6 +4,7 @@
 
 #include "Core.h"
 #include "Label.h"
+#include "HomeScreen.h"
 
 void Core::init(const char* title)
 {
@@ -16,7 +17,8 @@ void Core::init(const char* title)
 	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, monitor.w, monitor.h, SDL_WINDOW_BORDERLESS | SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-
+	screens.push_back(new HomeScreen{});
+	activeScreen = screens[0];
 
 	running = true;
 }
@@ -48,7 +50,7 @@ void Core::draw()
 	SDL_SetRenderDrawColor(renderer, 0x10, 0x10, 0x10, 0xFF);
 	SDL_RenderClear(renderer);
 
-
+	activeScreen->draw();
 
 	SDL_RenderPresent(renderer);
 }
