@@ -7,7 +7,7 @@
 
 #include "Core.h"
 
-void Thunder::init(const char* title)
+void Core::init(const char* title)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	IMG_Init(IMG_INIT_PNG);
@@ -26,7 +26,7 @@ void Thunder::init(const char* title)
 	running = true;
 }
 
-void Thunder::event()
+void Core::event()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
@@ -49,7 +49,7 @@ void Thunder::event()
 	}
 }
 
-void Thunder::draw()
+void Core::draw()
 {
 	ImGui_ImplSDLRenderer_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
@@ -62,7 +62,7 @@ void Thunder::draw()
 	SDL_RenderPresent(renderer);
 }
 
-void Thunder::quit()
+void Core::quit()
 {
 	ImGui_ImplSDLRenderer_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
