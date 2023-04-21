@@ -6,6 +6,6 @@
 class Home : private Screen
 {
 
-}
+};
 
 #endif
