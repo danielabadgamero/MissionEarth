@@ -5,7 +5,7 @@
 
 #include "Core.h"
 #include "Widgets.h"
-#include "HomeScreen.h"
+#include "Screens.h"
 
 void Core::init(const char* title)
 {
@@ -18,9 +18,12 @@ void Core::init(const char* title)
 	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, monitor.w, monitor.h, SDL_WINDOW_BORDERLESS | SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	screens.push_back(new HomeScreen{});
-	activeScreen = screens[0];
+	screens[home] = new HomeScreen{};
+	screens[levels] = new LevelsScreen{};
+	screens[settings] = new SettingsScreen{};
+	screens[game] = new GameScreen{};
 
+	activeScreen = screens[home];
 	running = true;
 }
 

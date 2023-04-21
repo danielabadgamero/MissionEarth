@@ -6,22 +6,14 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-namespace Label
+namespace Widgets
 {
 	inline TTF_Font* font{};
-
-	void draw(std::string, SDL_Point, SDL_Color, SDL_FPoint);
 	void setFont(std::string, int);
-}
 
-namespace Button
-{
-	bool draw(SDL_Texture*, SDL_Point, SDL_FPoint);
-}
-
-namespace Image
-{
-
+	void label(std::string, SDL_Point, SDL_Color, SDL_FPoint);
+	bool button(SDL_Texture*, SDL_Point, SDL_FPoint);
+	void image(SDL_Texture*, SDL_Point, SDL_FPoint);
 }
 
 #endif
