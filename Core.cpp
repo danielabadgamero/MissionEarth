@@ -3,11 +3,13 @@
 #include <SDL_net.h>
 
 #include "Core.h"
+#include "Label.h"
 
 void Core::init(const char* title)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	IMG_Init(IMG_INIT_PNG);
+	TTF_Init();
 	SDLNet_Init();
 
 	SDL_GetCurrentDisplayMode(0, &monitor);
@@ -23,6 +25,7 @@ void Core::event()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
+	{
 		switch (e.type)
 		{
 		case SDL_QUIT:
@@ -37,12 +40,16 @@ void Core::event()
 			}
 			break;
 		}
+	}
 }
 
 void Core::draw()
 {
 	SDL_SetRenderDrawColor(renderer, 0x10, 0x10, 0x10, 0xFF);
 	SDL_RenderClear(renderer);
+
+
+
 	SDL_RenderPresent(renderer);
 }
 
@@ -52,6 +59,7 @@ void Core::quit()
 	SDL_DestroyRenderer(renderer);
 
 	SDLNet_Quit();
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
