@@ -14,6 +14,8 @@ void Core::init(const char* title)
 	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, monitor.w, monitor.h, SDL_WINDOW_BORDERLESS | SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
+
+
 	running = true;
 }
 
@@ -52,4 +54,14 @@ void Core::quit()
 	SDLNet_Quit();
 	IMG_Quit();
 	SDL_Quit();
+}
+
+void Core::Thread::open()
+{
+	thread = SDL_CreateThread(func, "thread", NULL);
+}
+
+void Core::Thread::close()
+{
+	SDL_WaitThread(thread, NULL);
 }

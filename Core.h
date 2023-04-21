@@ -5,6 +5,16 @@
 
 namespace Core
 {
+	struct Thread
+	{
+		bool done{};
+		int (*func)(void*){};
+		SDL_Thread* thread{};
+
+		void open();
+		void close();
+	};
+
 	inline SDL_Window* window{};
 	inline SDL_Renderer* renderer{};
 	inline SDL_DisplayMode monitor{};
