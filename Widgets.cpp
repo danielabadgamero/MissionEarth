@@ -25,3 +25,8 @@ void Label::setFont(std::string path, int size)
 		TTF_CloseFont(font);
 	font = TTF_OpenFont(path.c_str(), size);
 }
+
+bool Button::draw(SDL_Texture* texture)
+{
+
+}

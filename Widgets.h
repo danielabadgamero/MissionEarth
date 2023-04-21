@@ -14,4 +14,9 @@ namespace Label
 	void setFont(std::string, int);
 }
 
+namespace Button
+{
+	bool draw(SDL_Texture*);
+}
+
 #endif

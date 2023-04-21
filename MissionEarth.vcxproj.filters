@@ -24,7 +24,7 @@
     <ClCompile Include="Widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HomeScreen.cpp">
+    <ClCompile Include="Screens.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,10 +35,7 @@
     <ClInclude Include="Widgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HomeScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Screen.h">
+    <ClInclude Include="Screens.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

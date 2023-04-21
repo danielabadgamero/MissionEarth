@@ -22,9 +22,10 @@ namespace Core
 	inline SDL_Window* window{};
 	inline SDL_Renderer* renderer{};
 	inline SDL_DisplayMode monitor{};
+	inline SDL_Point mouse{};
+
 	inline std::vector<Screen*> screens{};
 	inline Screen* activeScreen{};
-
 	inline bool running{};
 
 	void init(const char*);

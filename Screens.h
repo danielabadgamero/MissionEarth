@@ -1,7 +1,11 @@
-#ifndef HOMESCREEN_H
-#define HOMESCREEN_H
+#ifndef SCREEN_H
+#define SCREEN_H
 
-#include "Screen.h"
+class Screen
+{
+public:
+	virtual void draw() const = 0;
+};
 
 class HomeScreen : public Screen
 {

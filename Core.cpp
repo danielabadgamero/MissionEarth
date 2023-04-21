@@ -42,6 +42,9 @@ void Core::event()
 				break;
 			}
 			break;
+		case SDL_MOUSEMOTION:
+			SDL_GetMouseState(&mouse.x, &mouse.y);
+			break;
 		}
 	}
 }
