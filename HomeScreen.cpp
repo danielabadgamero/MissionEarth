@@ -4,7 +4,7 @@
 
 #include "Core.h"
 #include "HomeScreen.h"
-#include "Label.h"
+#include "Widgets.h"
 
 void HomeScreen::draw() const
 {

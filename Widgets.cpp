@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-#include "Label.h"
+#include "Widgets.h"
 #include "Core.h"
 
 void Label::draw(std::string text, SDL_Point pos, SDL_Color color, SDL_FPoint pivot)

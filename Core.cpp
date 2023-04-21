@@ -1,9 +1,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_net.h>
+#include <SDL_ttf.h>
 
 #include "Core.h"
-#include "Label.h"
+#include "Widgets.h"
 #include "HomeScreen.h"
 
 void Core::init(const char* title)

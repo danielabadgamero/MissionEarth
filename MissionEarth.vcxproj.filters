@@ -21,7 +21,7 @@
     <ClCompile Include="Core.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Label.cpp">
+    <ClCompile Include="Widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HomeScreen.cpp">
@@ -32,7 +32,7 @@
     <ClInclude Include="Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Label.h">
+    <ClInclude Include="Widgets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HomeScreen.h">
