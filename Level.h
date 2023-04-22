@@ -10,9 +10,10 @@ class Level
 private:
 	SDL_Texture* icon{};
 	SDL_Color groundColor{};
-	std::string name{};
+	std::string id{};
 public:
 	Level(std::string);
+	void loadInfo();
 };
 
 #endif

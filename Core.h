@@ -6,6 +6,7 @@
 #include <SDL.h>
 
 #include "Screens.h"
+#include "Level.h"
 
 namespace Core
 {
@@ -19,7 +20,7 @@ namespace Core
 		void close();
 	};
 
-	enum
+	enum class ScreenType
 	{
 		home,
 		levels,
@@ -34,8 +35,9 @@ namespace Core
 	inline SDL_DisplayMode monitor{};
 	inline SDL_Point mouse{};
 
-	inline std::vector<Screen*> screens{ total_screens };
+	inline std::vector<Screen*> screens{ static_cast<int>(ScreenType::total_screens) };
 	inline Screen* activeScreen{};
+	inline std::vector<Level*> levels{};
 	inline bool running{};
 
 	void init(const char*);

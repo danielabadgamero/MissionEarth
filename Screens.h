@@ -8,8 +8,6 @@
 #include <SDL.h>
 #include <SDL_net.h>
 
-#include "Level.h"
-
 class Screen
 {
 protected:
@@ -30,16 +28,15 @@ public:
 class LevelsScreen : public Screen
 {
 private:
-	IPaddress ip{};
-	TCPsocket socket{};
-	std::vector<Level*> levels{};
 	SDL_Thread* thread{};
 public:
 	LevelsScreen();
 	void draw() const override;
 };
-int loadPlanetInfo(void*);
-bool threadDone{};
+inline IPaddress ip{};
+inline TCPsocket socket{};
+inline int loadPlanetInfo(void*);
+inline bool threadDone{};
 
 class SettingsScreen : public Screen
 {
