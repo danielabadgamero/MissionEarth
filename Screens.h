@@ -2,9 +2,13 @@
 #define SCREEN_H
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 #include <SDL.h>
+#include <SDL_net.h>
+
+#include "Level.h"
 
 class Screen
 {
@@ -26,10 +30,16 @@ public:
 class LevelsScreen : public Screen
 {
 private:
+	IPaddress ip{};
+	TCPsocket socket{};
+	std::vector<Level*> levels{};
+	SDL_Thread* thread{};
 public:
 	LevelsScreen();
 	void draw() const override;
 };
+int loadPlanetInfo(void*);
+bool threadDone{};
 
 class SettingsScreen : public Screen
 {
