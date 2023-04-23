@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Screens.cpp" />
     <ClCompile Include="Widgets.cpp" />
     <ClCompile Include="main.cpp" />
@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.h" />
-    <ClInclude Include="Level.h" />
+    <ClInclude Include="Planet.h" />
     <ClInclude Include="Widgets.h" />
     <ClInclude Include="Screens.h" />
   </ItemGroup>

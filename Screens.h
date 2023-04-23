@@ -6,7 +6,6 @@
 #include <unordered_map>
 
 #include <SDL.h>
-#include <SDL_net.h>
 
 class Screen
 {
@@ -25,18 +24,13 @@ public:
 	void draw() const override;
 };
 
-class LevelsScreen : public Screen
+class WorldsScreen : public Screen
 {
 private:
-	SDL_Thread* thread{};
 public:
-	LevelsScreen();
+	WorldsScreen();
 	void draw() const override;
 };
-inline IPaddress ip{};
-inline TCPsocket socket{};
-inline int loadPlanetInfo(void*);
-inline bool threadDone{};
 
 class SettingsScreen : public Screen
 {

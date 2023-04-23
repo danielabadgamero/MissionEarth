@@ -19,7 +19,7 @@ void Core::init(const char* title)
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	screens[static_cast<int>(ScreenType::home)] = new HomeScreen{};
-	screens[static_cast<int>(ScreenType::levels)] = new LevelsScreen{};
+	screens[static_cast<int>(ScreenType::worlds)] = new WorldsScreen{};
 	screens[static_cast<int>(ScreenType::settings)] = new SettingsScreen{};
 	screens[static_cast<int>(ScreenType::game)] = new GameScreen{};
 

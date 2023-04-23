@@ -6,7 +6,9 @@
 #include <SDL.h>
 
 #include "Screens.h"
-#include "Level.h"
+#include "Planet.h"
+
+constexpr double G{ 6.67428e-11 };
 
 namespace Core
 {
@@ -23,7 +25,7 @@ namespace Core
 	enum class ScreenType
 	{
 		home,
-		levels,
+		worlds,
 		settings,
 		game,
 
