@@ -70,9 +70,10 @@ GameScreen::GameScreen()
 	planets.push_back(new Planet{ "earth", "Sun", 5.9722e24, 6378.137e3, 149.598e9, 0.0167 });
 
 	map = Map{};
+	vessel = Vessel{};
 
 	SOI = *std::find_if(planets.begin(), planets.end(), [](Planet* A) { return A->getID() == "Earth"; });
-	vessel.getDist() = SOI->getR();
+	vessel.getDist() = SOI->getR() + 100;
 }
 
 void GameScreen::draw() const
@@ -110,17 +111,15 @@ void GameScreen::draw() const
 GameScreen::Vessel::Vessel()
 {
 	texture = IMG_LoadTexture(Core::renderer, "img/spaceship.png");
+	mass = 1000;
 }
 
 void GameScreen::Vessel::move(double dt)
 {
-	for (Planet*& planet : planets)
-		planet->move(dt);
-
 	vel.y -= static_cast<float>(G * SOI->getM() / pow(dist, 2) * dt);
 
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_W])
-		thrust = 20000;
+		thrust = 100000;
 	else
 		thrust = 0;
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_A])
@@ -156,9 +155,10 @@ void GameScreen::Vessel::draw() const
 	if (Widgets::button(buttons.at("back"), { 50, Core::monitor.h - 50 }, { 0, 1 }))
 		currentView = View::controlRoom;
 
-	Widgets::label("Speed: " + std::to_string(vel.y), { 10, 0 }, { 0xff, 0xff, 0xff }, {});
-	Widgets::label("Height: " + std::to_string((dist - SOI->getR()) / 1000), { 10, 50 }, { 0xff, 0xff, 0xff }, {});
-	Widgets::label("Angle: " + std::to_string(angle), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("V-Speed: " + std::to_string(vel.y), { 10, 0 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("H-Speed: " + std::to_string(vel.x), { 10, 50 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("Height: " + std::to_string((dist - SOI->getR()) / 1000), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("Angle: " + std::to_string(angle), { 10, 150 }, { 0xff, 0xff, 0xff }, {});
 }
 
 double& GameScreen::Vessel::getDist()

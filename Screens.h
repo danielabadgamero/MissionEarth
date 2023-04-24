@@ -92,8 +92,8 @@ private:
 	static inline std::vector<Planet*> planets;
 	static inline std::unordered_map<std::string, SDL_Texture*> buttons;
 	static inline SDL_Texture* topPanelTexture;
-	static inline Map map{};
-	static inline Vessel vessel{};
+	static inline Map map;
+	static inline Vessel vessel;
 	static inline Planet* SOI;
 public:
 	GameScreen();
