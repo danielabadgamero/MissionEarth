@@ -191,23 +191,23 @@ void GameScreen::Map::move(double dt)
 
 	if (zoomFactor > 1)
 	{
-		viewport.x += static_cast<float>((Core::savedPos.x - Core::monitor.w / 2.0f) / Core::monitor.w * viewport.w * (1 - zoomFactor));
-		viewport.y += static_cast<float>((Core::savedPos.y - Core::monitor.h / 2.0f) / Core::monitor.h * viewport.h * (1 - zoomFactor));
-		viewport.w *= static_cast<float>(zoomFactor);
-		viewport.h *= static_cast<float>(zoomFactor);
+		viewport.x += (Core::savedPos.x - Core::monitor.w / 2.0f) / Core::monitor.w * viewport.w * (1 - zoomFactor);
+		viewport.y += (Core::savedPos.y - Core::monitor.h / 2.0f) / Core::monitor.h * viewport.h * (1 - zoomFactor);
+		viewport.w *= zoomFactor;
+		viewport.h *= zoomFactor;
 	}
 	else if (zoomFactor < 1)
 	{
-		viewport.x += static_cast<float>((Core::savedPos.x - Core::monitor.w / 2.0f) / Core::monitor.w * viewport.w * (1 - zoomFactor));
-		viewport.y += static_cast<float>((Core::savedPos.y - Core::monitor.h / 2.0f) / Core::monitor.h * viewport.h * (1 - zoomFactor));
-		viewport.w *= static_cast<float>(zoomFactor);
-		viewport.h *= static_cast<float>(zoomFactor);
+		viewport.x += (Core::savedPos.x - Core::monitor.w / 2.0f) / Core::monitor.w * viewport.w * (1 - zoomFactor);
+		viewport.y += (Core::savedPos.y - Core::monitor.h / 2.0f) / Core::monitor.h * viewport.h * (1 - zoomFactor);
+		viewport.w *= zoomFactor;
+		viewport.h *= zoomFactor;
 	}
 
 	if (focusedPlanet)
 	{
-		viewport.x = static_cast<float>(Core::gameScreen->planets[focusedPlanet]->getPos().x);
-		viewport.y = static_cast<float>(Core::gameScreen->planets[focusedPlanet]->getPos().y);
+		viewport.x = Core::gameScreen->planets[focusedPlanet]->getPos().x;
+		viewport.y = Core::gameScreen->planets[focusedPlanet]->getPos().y;
 	}
 
 	for (Planet*& planet : Core::gameScreen->planets)
@@ -223,7 +223,7 @@ void GameScreen::Map::draw() const
 		currentView = View::controlRoom;
 }
 
-SDL_FRect& GameScreen::Map::getViewport()
+Rect& GameScreen::Map::getViewport()
 {
 	return viewport;
 }

@@ -11,6 +11,14 @@ struct Point
 	double y{};
 };
 
+struct Rect
+{
+	double x{};
+	double y{};
+	double w{};
+	double h{};
+};
+
 class Planet
 {
 private:

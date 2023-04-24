@@ -10,6 +10,7 @@
 #include "Planet.h"
 
 struct Point;
+struct Rect;
 
 class Screen
 {
@@ -68,7 +69,7 @@ private:
 	class Map
 	{
 	private:
-		SDL_FRect viewport{};
+		Rect viewport{};
 		int focusedPlanet{};
 		double zoomFactor{ 1 };
 	public:
@@ -76,7 +77,7 @@ private:
 		void move(double);
 		void draw() const;
 		int& getFocused();
-		SDL_FRect& getViewport();
+		Rect& getViewport();
 	};
 
 	static inline enum class View

@@ -58,8 +58,8 @@ void Planet::move(double dt)
 		if (abs(dE) < 1e-6) break;
 	}
 
-	pos.x = static_cast<float>(a * (cos(E) - e)) + p->pos.x;
-	pos.y = static_cast<float>(a * sin(E) * sqrt(1 - pow(e, 2))) + p->pos.y;
+	pos.x = a * (cos(E) - e) + p->pos.x;
+	pos.y = a * sin(E) * sqrt(1 - pow(e, 2)) + p->pos.y;
 }
 
 SDL_Texture* Planet::getIcon() const
@@ -69,11 +69,11 @@ SDL_Texture* Planet::getIcon() const
 
 void Planet::draw() const
 {
-	SDL_FRect& viewport{ Core::gameScreen->getMap().getViewport() };
+	Rect& viewport{ Core::gameScreen->getMap().getViewport() };
 	SDL_FRect rect
 	{
-		static_cast<float>(pos.x - viewport.x + viewport.w / 2.0f) / viewport.w * Core::monitor.w,
-		static_cast<float>(pos.y - viewport.y + viewport.h / 2.0f) / viewport.h * Core::monitor.h,
+		static_cast<float>((pos.x - viewport.x + viewport.w / 2) / viewport.w * Core::monitor.w),
+		static_cast<float>((pos.y - viewport.y + viewport.h / 2) / viewport.h * Core::monitor.h),
 		std::clamp(static_cast<float>(r / viewport.w) * Core::monitor.w, 10.0f, FLT_MAX),
 		std::clamp(static_cast<float>(r / viewport.h) * Core::monitor.h, 10.0f, FLT_MAX),
 	};
