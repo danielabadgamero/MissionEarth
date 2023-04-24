@@ -61,17 +61,24 @@ void SettingsScreen::draw() const
 GameScreen::GameScreen()
 {
 	planets.push_back(new Planet{ "sun", "", 1.989e30, 696.34e6, 0, 0 });
+	previousTime = new double{};
+	currentTime = new double{};
+	controlRoom = new ControlRoom{};
+	mapView = new MapView{};
 }
 
 void GameScreen::draw() const
 {
+	*previousTime = *currentTime;
+	*currentTime = SDL_GetTicks() / 1000.0;
 	switch (currentView)
 	{
 	case View::controlRoom:
-		controlRoom.draw();
+		controlRoom->draw();
 		break;
 	case View::map:
-		mapView.draw();
+		mapView->move(*currentTime - *previousTime);
+		mapView->draw();
 		break;
 	case View::vessel:
 		break;
@@ -81,4 +88,14 @@ void GameScreen::draw() const
 std::vector<Planet*>& GameScreen::getPlanets()
 {
 	return planets;
+}
+
+GameScreen::View& GameScreen::getView()
+{
+	return currentView;
+}
+
+MapView* GameScreen::getMap()
+{
+	return mapView;
 }

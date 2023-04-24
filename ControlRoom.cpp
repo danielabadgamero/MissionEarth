@@ -1,6 +1,8 @@
 #include <algorithm>
+#include <unordered_map>
 
 #include <SDL.h>
+#include <SDL_image.h>
 
 #include "ControlRoom.h"
 #include "Core.h"
@@ -10,11 +12,15 @@
 
 ControlRoom::ControlRoom()
 {
-	std::vector<Planet*>& planets{ static_cast<GameScreen*>(Core::screens[static_cast<int>(Core::ScreenType::game)])->getPlanets() };
-	SOI = *std::find(planets.begin(), planets.end(), "earth");
+	SOI = *std::find(Core::getPlanets().begin(), Core::getPlanets().end(), "earth");
+
+	buttons["map"] = IMG_LoadTexture(Core::renderer, "img/mapButton.png");
 }
 
 void ControlRoom::draw() const
 {
 	Widgets::image(SOI->getIcon(), { Core::monitor.w / 3, Core::monitor.h / 2 }, { 0.5, 0.5 });
+
+	if (Widgets::button(buttons.at("map"), { Core::monitor.w / 2, Core::monitor.h / 3 }, { 0, 0.5 }))
+		static_cast<GameScreen*>(Core::screens[static_cast<int>(Core::ScreenType::game)])->getView() = GameScreen::View::map;
 }

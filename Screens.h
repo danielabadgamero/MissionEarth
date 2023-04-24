@@ -46,21 +46,26 @@ public:
 
 class GameScreen : public Screen
 {
-private:
+public:
 	enum class View
 	{
 		controlRoom,
 		map,
 		vessel
-	} currentView{};
-
-	ControlRoom controlRoom{};
-	MapView mapView{};
+	};
+private:
+	double* previousTime{};
+	double* currentTime{};
+	View currentView{};
+	ControlRoom* controlRoom{};
+	MapView* mapView{};
 	std::vector<Planet*> planets{};
 public:
 	GameScreen();
 	void draw() const override;
 	std::vector<Planet*>& getPlanets();
+	View& getView();
+	MapView* getMap();
 };
 
 #endif

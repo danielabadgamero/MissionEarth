@@ -8,6 +8,7 @@
 #include "Core.h"
 #include "Planet.h"
 #include "Screens.h"
+#include "MapView.h"
 
 Planet::Planet(std::string name, std::string parent, double m, double r, double a, double e, bool atmosphere, double atmosphereHeight, double atmospherePressure, SDL_Color atmosphereColor)
 	: id{ name }, m{ m }, r{ r }, a{ a }, e{ e }, atmosphere{ atmosphere }, atmosphereHeight{ atmosphereHeight }, atmospherePressure{ atmospherePressure }, atmosphereColor{ atmosphereColor }
@@ -65,4 +66,21 @@ bool Planet::operator==(std::string B)
 SDL_Texture* Planet::getIcon() const
 {
 	return icon;
+}
+
+void Planet::draw() const
+{
+	SDL_FRect rect
+	{
+		(pos.x - getViewport().x + viewport.w / 2.0f) / viewport.w * Core::monitor.w,
+		(pos.y - viewport.y + viewport.h / 2.0f) / viewport.h * Core::monitor.h,
+		std::clamp(r / viewport.w * Core::monitor.w, 10.0f, FLT_MAX),
+		std::clamp(r / viewport.h * Core::monitor.h, 10.0f, FLT_MAX),
+	};
+	if (name == "saturn")
+		rect.w *= 2.2f, rect.h *= 2.2f;
+	rect.x -= rect.w / 2;
+	rect.y -= rect.h / 2;
+
+	SDL_RenderCopyF(Core::renderer, icon, NULL, &rect);
 }

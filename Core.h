@@ -22,7 +22,7 @@ namespace Core
 		void close();
 	};
 
-	enum class ScreenType
+	enum ScreenType
 	{
 		home,
 		worlds,
@@ -37,10 +37,13 @@ namespace Core
 	inline SDL_DisplayMode monitor{};
 	inline SDL_Point mouse{};
 
-	inline std::vector<Screen*> screens{ static_cast<int>(ScreenType::total_screens) };
+	inline std::vector<Screen*> screens{ total_screens };
 	inline Screen* activeScreen{};
 	inline bool running{};
 
+	std::vector<Planet*>& getPlanets();
+	template <typename T>
+	T getScreen(ScreenType);
 	void init(const char*);
 	void event();
 	void draw();
