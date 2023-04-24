@@ -3,6 +3,9 @@
 
 class MapView
 {
+private:
+public:
+	MapView();
 };
 
 #endif

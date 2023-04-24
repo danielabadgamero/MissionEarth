@@ -9,7 +9,6 @@
 
 #include "ControlRoom.h"
 #include "MapView.h"
-#include "VesselView.h"
 
 class Screen
 {
@@ -47,6 +46,8 @@ public:
 class GameScreen : public Screen
 {
 private:
+	ControlRoom controlRoom{};
+	MapView mapView{};
 public:
 	GameScreen();
 	void draw() const override;

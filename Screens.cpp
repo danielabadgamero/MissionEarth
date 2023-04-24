@@ -59,6 +59,7 @@ void SettingsScreen::draw() const
 
 GameScreen::GameScreen()
 {
+	
 }
 
 void GameScreen::draw() const

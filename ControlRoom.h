@@ -8,6 +8,7 @@ class ControlRoom
 private:
 	Planet* SOI{};
 public:
+	ControlRoom();
 };
 
 #endif
