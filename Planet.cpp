@@ -56,8 +56,10 @@ void Planet::move(double dt)
 		if (abs(dE) < 1e-6) break;
 	}
 
+	SDL_FPoint prevPos{ pos };
 	pos.x = static_cast<float>(a * (cos(E) - e)) + p->pos.x;
 	pos.y = static_cast<float>(a * sin(E) * sqrt(1 - pow(e, 2))) + p->pos.y;
+	vel = { pos.x - prevPos.x, pos.y - prevPos.y };
 }
 
 SDL_Texture* Planet::getIcon() const
@@ -88,6 +90,11 @@ SDL_FPoint& Planet::getPos()
 	return pos;
 }
 
+SDL_FPoint& Planet::getVel()
+{
+	return vel;
+}
+
 std::string& Planet::getID()
 {
 	return id;
@@ -101,4 +108,9 @@ double Planet::getR() const
 double Planet::getM() const
 {
 	return m;
+}
+
+SDL_Color& Planet::getGroundColor()
+{
+	return groundColor;
 }

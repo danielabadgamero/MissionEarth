@@ -9,7 +9,10 @@
 class Vessel
 {
 private:
-	double mass{};
+	double mass{ 1000 };
+	double dir{};
+	double fuel{};
+	double thrust{};
 	SDL_FPoint pos{};
 	SDL_FPoint vel{};
 	SDL_Texture* texture{};
