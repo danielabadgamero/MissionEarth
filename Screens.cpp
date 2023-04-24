@@ -84,11 +84,11 @@ void GameScreen::draw() const
 		controlRoom->draw();
 		break;
 	case View::map:
-		map->move(*currentTime - *previousTime);
+		map->move((*currentTime - *previousTime) * Core::timeWarp);
 		map->draw();
 		break;
 	case View::vessel:
-		vessel->move(*currentTime - *previousTime);
+		vessel->move((*currentTime - *previousTime) * Core::timeWarp);
 		vessel->draw();
 		break;
 	}

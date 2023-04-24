@@ -45,6 +45,7 @@ namespace Core
 	inline Screen* activeScreen{};
 	inline bool running{};
 	inline int wheel{};
+	inline int timeWarp{ 1 };
 
 	void init(const char*);
 	void event();

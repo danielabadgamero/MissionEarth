@@ -53,6 +53,13 @@ void Core::event()
 				else
 					getScreen<GameScreen*>(game)->getMap()->getFocused() = static_cast<int>(planets.size()) - 1;
 				break;
+			case SDL_SCANCODE_COMMA:
+				if (timeWarp > 1)
+					timeWarp /= 10;
+				break;
+			case SDL_SCANCODE_PERIOD:
+				timeWarp *= 10;
+				break;
 			}
 			break;
 		case SDL_MOUSEMOTION:
