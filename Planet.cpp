@@ -70,14 +70,15 @@ SDL_Texture* Planet::getIcon() const
 
 void Planet::draw() const
 {
+	SDL_FRect& viewport{ Core::getScreen<GameScreen>(Core::game)->getMap()->getViewport() };
 	SDL_FRect rect
 	{
-		(pos.x - getViewport().x + viewport.w / 2.0f) / viewport.w * Core::monitor.w,
+		(pos.x - viewport.x + viewport.w / 2.0f) / viewport.w * Core::monitor.w,
 		(pos.y - viewport.y + viewport.h / 2.0f) / viewport.h * Core::monitor.h,
-		std::clamp(r / viewport.w * Core::monitor.w, 10.0f, FLT_MAX),
-		std::clamp(r / viewport.h * Core::monitor.h, 10.0f, FLT_MAX),
+		std::clamp(static_cast<float>(r / viewport.w) * Core::monitor.w, 10.0f, FLT_MAX),
+		std::clamp(static_cast<float>(r / viewport.h) * Core::monitor.h, 10.0f, FLT_MAX),
 	};
-	if (name == "saturn")
+	if (id == "saturn")
 		rect.w *= 2.2f, rect.h *= 2.2f;
 	rect.x -= rect.w / 2;
 	rect.y -= rect.h / 2;

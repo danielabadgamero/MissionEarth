@@ -43,7 +43,7 @@ namespace Core
 
 	std::vector<Planet*>& getPlanets();
 	template <typename T>
-	T getScreen(ScreenType);
+	T* getScreen(ScreenType);
 	void init(const char*);
 	void event();
 	void draw();

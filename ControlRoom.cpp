@@ -22,5 +22,5 @@ void ControlRoom::draw() const
 	Widgets::image(SOI->getIcon(), { Core::monitor.w / 3, Core::monitor.h / 2 }, { 0.5, 0.5 });
 
 	if (Widgets::button(buttons.at("map"), { Core::monitor.w / 2, Core::monitor.h / 3 }, { 0, 0.5 }))
-		static_cast<GameScreen*>(Core::screens[static_cast<int>(Core::ScreenType::game)])->getView() = GameScreen::View::map;
+		Core::getScreen<GameScreen>(Core::game)->getView() = GameScreen::View::map;
 }

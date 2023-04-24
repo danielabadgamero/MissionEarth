@@ -1,6 +1,5 @@
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_net.h>
 #include <SDL_ttf.h>
 
 #include "Core.h"
@@ -12,7 +11,6 @@ void Core::init(const char* title)
 	SDL_Init(SDL_INIT_EVERYTHING);
 	IMG_Init(IMG_INIT_PNG);
 	TTF_Init();
-	SDLNet_Init();
 
 	SDL_GetCurrentDisplayMode(0, &monitor);
 	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, monitor.w, monitor.h, SDL_WINDOW_BORDERLESS | SDL_WINDOW_SHOWN);
@@ -67,7 +65,6 @@ void Core::quit()
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 
-	SDLNet_Quit();
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
@@ -89,7 +86,7 @@ std::vector<Planet*>& Core::getPlanets()
 }
 
 template <typename T>
-T Core::getScreen(ScreenType screen)
+T* Core::getScreen(ScreenType screen)
 {
 	return static_cast<T*>(screens[screen]);
 }
