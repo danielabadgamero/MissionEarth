@@ -66,6 +66,7 @@ private:
 		Vessel();
 		void draw() const;
 		void move(double);
+		double& getDist();
 	};
 	
 	class Map

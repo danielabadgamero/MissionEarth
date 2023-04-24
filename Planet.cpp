@@ -14,6 +14,8 @@ Planet::Planet(std::string name, std::string parent, double m, double r, double 
 {
 	SDL_Surface* tempSurface{ IMG_Load(("img/planets/" + name + ".png").c_str()) };
 	icon = SDL_CreateTextureFromSurface(Core::renderer, tempSurface);
+	id[0] -= 0x20;
+
 	int totalR{};
 	int totalG{};
 	int totalB{};
@@ -39,6 +41,7 @@ Planet::Planet(std::string name, std::string parent, double m, double r, double 
 		double T{ 2 * M_PI * sqrt(pow(a, 3) / (G * p->m)) };
 		n = 2 * M_PI / T;
 	}
+	SDL_FreeSurface(tempSurface);
 }
 
 void Planet::move(double dt)
@@ -55,10 +58,8 @@ void Planet::move(double dt)
 		if (abs(dE) < 1e-6) break;
 	}
 
-	SDL_FPoint prevPos{ pos };
 	pos.x = static_cast<float>(a * (cos(E) - e)) + p->pos.x;
 	pos.y = static_cast<float>(a * sin(E) * sqrt(1 - pow(e, 2))) + p->pos.y;
-	vel = { pos.x - prevPos.x, pos.y - prevPos.y };
 }
 
 SDL_Texture* Planet::getIcon() const
@@ -76,7 +77,7 @@ void Planet::draw() const
 		std::clamp(static_cast<float>(r / viewport.w) * Core::monitor.w, 10.0f, FLT_MAX),
 		std::clamp(static_cast<float>(r / viewport.h) * Core::monitor.h, 10.0f, FLT_MAX),
 	};
-	if (id == "saturn")
+	if (id == "Saturn")
 		rect.w *= 2.2f, rect.h *= 2.2f;
 	rect.x -= rect.w / 2;
 	rect.y -= rect.h / 2;
@@ -87,11 +88,6 @@ void Planet::draw() const
 SDL_FPoint& Planet::getPos()
 {
 	return pos;
-}
-
-SDL_FPoint& Planet::getVel()
-{
-	return vel;
 }
 
 std::string& Planet::getID()

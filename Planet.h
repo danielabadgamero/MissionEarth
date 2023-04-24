@@ -23,12 +23,10 @@ private:
 	const double atmospherePressure{};
 	SDL_Color atmosphereColor{};
 	SDL_FPoint pos{};
-	SDL_FPoint vel{};
 public:
 	void move(double);
 	void draw() const;
 	SDL_FPoint& getPos();
-	SDL_FPoint& getVel();
 	std::string& getID();
 	Planet(std::string, std::string, double, double, double, double, bool = false, double = 0, double = 0, SDL_Color = {});
 	SDL_Texture* getIcon() const;

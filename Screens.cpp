@@ -67,9 +67,10 @@ GameScreen::GameScreen()
 	topPanelTexture = IMG_LoadTexture(Core::renderer, "img/topPanelInfo.png");
 
 	planets.push_back(new Planet{ "sun", "", 1.989e30, 696.34e6, 0, 0 });
-	planets.push_back(new Planet{ "earth", "sun", 5.9722e24, 6378.137e3, 149.598e9, 0.0167 });
+	planets.push_back(new Planet{ "earth", "Sun", 5.9722e24, 6378.137e3, 149.598e9, 0.0167 });
 
-	SOI = *std::find_if(planets.begin(), planets.end(), [](Planet* A) { return A->getID() == "earth"; });
+	SOI = *std::find_if(planets.begin(), planets.end(), [](Planet* A) { return A->getID() == "Earth"; });
+	vessel.getDist() = SOI->getR();
 }
 
 void GameScreen::draw() const
@@ -87,7 +88,7 @@ void GameScreen::draw() const
 		Widgets::image(topPanelTexture, { Core::monitor.w / 2, 0 }, { 0.5, 0 });
 
 		Widgets::setFont("C:\\Windows\\Fonts\\AGENCYB.TTF", 50);
-		Widgets::label((SOI->getID().at(0) -= 0x20, SOI->getID().c_str()), { Core::monitor.w / 2, 0 }, { 0x28, 0x00, 0xbe }, { 0.5, 0 });
+		Widgets::label(SOI->getID().c_str(), { Core::monitor.w / 2, 0 }, { 0x28, 0x00, 0xbe }, { 0.5, 0 });
 
 		if (Widgets::button(buttons.at("map"), { Core::monitor.w / 2, Core::monitor.h / 3 }, { 0, 0.5 }))
 			currentView = View::map;
@@ -107,9 +108,6 @@ void GameScreen::draw() const
 GameScreen::Vessel::Vessel()
 {
 	texture = IMG_LoadTexture(Core::renderer, "img/spaceship.png");
-
-	dist = planets[1]->getR();
-	SOI = planets[1];
 }
 
 void GameScreen::Vessel::move(double dt)
@@ -132,16 +130,12 @@ void GameScreen::Vessel::move(double dt)
 		vel.y *= -0.1f, vel.x *= 0.8;
 	else
 	{
-		vel.x += sin((dir)*M_PI / 180) * thrust / mass;
-		vel.y += cos((dir)*M_PI / 180) * thrust / mass;
+		vel.x += sin(dir * M_PI / 180) * thrust / mass;
+		vel.y += cos(dir * M_PI / 180) * thrust / mass;
 	}
 
 	dist += vel.y * dt;
 	angle += atan(vel.x * dt / dist) * 180 / M_PI;
-
-	Widgets::label("Speed: " + std::to_string(vel.y), { 10, 0 }, { 0xff, 0xff, 0xff }, {});
-	Widgets::label("Height: " + std::to_string((dist - SOI->getR()) / 1000), { 10, 50 }, { 0xff, 0xff, 0xff }, {});
-	Widgets::label("Angle: " + std::to_string(angle), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
 }
 
 void GameScreen::Vessel::draw() const
@@ -159,6 +153,15 @@ void GameScreen::Vessel::draw() const
 
 	if (Widgets::button(buttons.at("back"), { 50, Core::monitor.h - 50 }, { 0, 1 }))
 		currentView = View::controlRoom;
+
+	Widgets::label("Speed: " + std::to_string(vel.y), { 10, 0 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("Height: " + std::to_string((dist - SOI->getR()) / 1000), { 10, 50 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("Angle: " + std::to_string(angle), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
+}
+
+double& GameScreen::Vessel::getDist()
+{
+	return dist;
 }
 
 GameScreen::Map::Map()
