@@ -41,6 +41,18 @@ void Core::event()
 			case SDL_SCANCODE_ESCAPE:
 				running = false;
 				break;
+			case SDL_SCANCODE_UP:
+				if (getScreen<GameScreen*>(game)->getMap()->getFocused() + 1 != planets.size())
+					getScreen<GameScreen*>(game)->getMap()->getFocused()++;
+				else
+					getScreen<GameScreen*>(game)->getMap()->getFocused() = 0;
+				break;
+			case SDL_SCANCODE_DOWN:
+				if (getScreen<GameScreen*>(game)->getMap()->getFocused() != 0)
+					getScreen<GameScreen*>(game)->getMap()->getFocused()--;
+				else
+					getScreen<GameScreen*>(game)->getMap()->getFocused() = static_cast<int>(planets.size()) - 1;
+				break;
 			}
 			break;
 		case SDL_MOUSEMOTION:

@@ -11,6 +11,7 @@ class ControlRoom
 {
 private:
 	std::unordered_map<std::string, SDL_Texture*> buttons{};
+	SDL_Texture* topPanelTexture{};
 public:
 	ControlRoom();
 	void draw() const;

@@ -1,16 +1,22 @@
 #include <vector>
+#include <string>
+#include <unordered_map>
 #include <cmath>
 
 #include <SDL.h>
+#include <SDL_image.h>
 
 #include "MapView.h"
 #include "Planet.h"
 #include "Core.h"
+#include "Widgets.h"
 
 MapView::MapView()
 {
 	viewport.w = 150e9f;
 	viewport.h = 150e9f / Core::monitor.w * Core::monitor.h;
+
+	buttons["back"] = IMG_LoadTexture(Core::renderer, "img/backButton.png");
 }
 
 void MapView::move(double dt)
@@ -39,10 +45,10 @@ void MapView::move(double dt)
 	}
 	else if (zoomFactor < 1)
 	{
-		viewport.w *= static_cast<float>(zoomFactor);
-		viewport.h *= static_cast<float>(zoomFactor);
 		viewport.x += static_cast<float>((Core::savedPos.x - Core::monitor.w / 2.0f) / Core::monitor.w * viewport.w * (1 - zoomFactor));
 		viewport.y += static_cast<float>((Core::savedPos.y - Core::monitor.h / 2.0f) / Core::monitor.h * viewport.h * (1 - zoomFactor));
+		viewport.w *= static_cast<float>(zoomFactor);
+		viewport.h *= static_cast<float>(zoomFactor);
 	}
 
 	if (focusedPlanet)
@@ -59,9 +65,17 @@ void MapView::draw() const
 {
 	for (Planet*& planet : Core::planets)
 		planet->draw();
+
+	if (Widgets::button(buttons.at("back"), { 50, Core::monitor.h - 50 }, { 0, 1 }))
+		Core::getScreen<GameScreen*>(Core::game)->getView() = GameScreen::View::controlRoom;
 }
 
 SDL_FRect& MapView::getViewport()
 {
 	return viewport;
+}
+
+int& MapView::getFocused()
+{
+	return focusedPlanet;
 }
