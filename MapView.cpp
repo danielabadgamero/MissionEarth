@@ -4,3 +4,8 @@ MapView::MapView()
 {
 
 }
+
+void MapView::draw() const
+{
+
+}

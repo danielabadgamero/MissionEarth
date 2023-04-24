@@ -9,6 +9,7 @@ private:
 	Planet* SOI{};
 public:
 	ControlRoom();
+	void draw() const;
 };
 
 #endif

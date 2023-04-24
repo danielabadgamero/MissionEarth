@@ -6,6 +6,7 @@ class MapView
 private:
 public:
 	MapView();
+	void draw() const;
 };
 
 #endif

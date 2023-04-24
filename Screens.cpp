@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 #include <SDL.h>
@@ -59,9 +60,25 @@ void SettingsScreen::draw() const
 
 GameScreen::GameScreen()
 {
-	
+	planets.push_back(new Planet{ "sun", "", 1.989e30, 696.34e6, 0, 0 });
 }
 
 void GameScreen::draw() const
 {
+	switch (currentView)
+	{
+	case View::controlRoom:
+		controlRoom.draw();
+		break;
+	case View::map:
+		mapView.draw();
+		break;
+	case View::vessel:
+		break;
+	}
+}
+
+std::vector<Planet*>& GameScreen::getPlanets()
+{
+	return planets;
 }

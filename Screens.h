@@ -9,6 +9,7 @@
 
 #include "ControlRoom.h"
 #include "MapView.h"
+#include "Planet.h"
 
 class Screen
 {
@@ -46,12 +47,20 @@ public:
 class GameScreen : public Screen
 {
 private:
+	enum class View
+	{
+		controlRoom,
+		map,
+		vessel
+	} currentView{};
+
 	ControlRoom controlRoom{};
 	MapView mapView{};
-	std::unordered_map<std::string, Planet*> planets{};
+	std::vector<Planet*> planets{};
 public:
 	GameScreen();
 	void draw() const override;
+	std::vector<Planet*>& getPlanets();
 };
 
 #endif
