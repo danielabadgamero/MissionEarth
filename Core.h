@@ -15,7 +15,7 @@ namespace Core
 	struct Thread
 	{
 		bool done{};
-		int (*func)(void*){};
+		int (*func)(void*) {};
 		SDL_Thread* thread{};
 
 		void open();
@@ -36,10 +36,13 @@ namespace Core
 	inline SDL_Renderer* renderer{};
 	inline SDL_DisplayMode monitor{};
 	inline SDL_Point mouse{};
+	inline SDL_Point mouseRel{};
+	inline SDL_FPoint savedPos{};
 
 	inline std::vector<Screen*> screens{ total_screens };
 	inline Screen* activeScreen{};
 	inline bool running{};
+	inline int wheel{};
 
 	std::vector<Planet*>& getPlanets();
 	template <typename T>

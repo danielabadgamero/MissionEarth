@@ -85,3 +85,8 @@ void Planet::draw() const
 
 	SDL_RenderCopyF(Core::renderer, icon, NULL, &rect);
 }
+
+SDL_FPoint& Planet::getPos()
+{
+	return pos;
+}

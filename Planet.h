@@ -27,6 +27,7 @@ public:
 	bool operator==(std::string);
 	void move(double);
 	void draw() const;
+	SDL_FPoint& getPos();
 	Planet(std::string, std::string, double, double, double, double, bool = false, double = 0, double = 0, SDL_Color = {});
 	SDL_Texture* getIcon() const;
 };

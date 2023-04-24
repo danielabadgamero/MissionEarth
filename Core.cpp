@@ -45,6 +45,13 @@ void Core::event()
 			break;
 		case SDL_MOUSEMOTION:
 			SDL_GetMouseState(&mouse.x, &mouse.y);
+			mouseRel.x = e.motion.xrel;
+			mouseRel.y = e.motion.yrel;
+			break;
+		case SDL_MOUSEWHEEL:
+			savedPos.x = static_cast<float>(mouse.x);
+			savedPos.y = static_cast<float>(mouse.y);
+			wheel = e.wheel.y;
 			break;
 		}
 	}

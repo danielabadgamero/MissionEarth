@@ -9,7 +9,6 @@ private:
 	SDL_FRect viewport{};
 	int focusedPlanet{};
 	double zoomFactor{ 1 };
-	SDL_FPoint savedPos{};
 public:
 	MapView();
 	void move(double);
