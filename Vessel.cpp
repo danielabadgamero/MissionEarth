@@ -10,11 +10,6 @@
 #include "Screens.h"
 #include "Widgets.h"
 
-static double distance(Vec2 A, Vec2 B)
-{
-	return static_cast<double>(sqrt(pow(A.x - B.x, 2) + pow(A.y - B.y, 2)));
-}
-
 Vessel::Vessel()
 {
 	buttons["back"] = IMG_LoadTexture(Core::renderer, "img/backButton.png");
@@ -42,24 +37,25 @@ void Vessel::move(double dt)
 		dir += 200 * dt;
 	
 	if (dist + vel.y * dt < SOI->getR())
-		vel.y *= -0.1f;
+		vel.y *= -0.1f, vel.x *= 0.8;
 	else
 	{
-		vel.x += sin((dir + acos(pos.y / distance({}, pos))) * M_PI / 180) * thrust / mass;
-		vel.y += cos((dir + acos(pos.x / distance({}, pos))) * M_PI / 180) * thrust / mass;
+		vel.x += sin((dir) * M_PI / 180) * thrust / mass;
+		vel.y += cos((dir) * M_PI / 180) * thrust / mass;
 	}
 
-	pos.x += vel.x * dt;
-	pos.y += vel.y * dt;
+	dist += vel.y * dt;
+	angle += atan(vel.x * dt / dist) * 180 / M_PI;
 
-	Widgets::label("Speed: " + std::to_string(distance({}, vel)), { 10, 0 }, { 0xff, 0xff, 0xff }, {});
-	Widgets::label("Height: " + std::to_string(distance({}, pos) / 1000 - SOI->getR() / 1000), {10, 50}, {0xff, 0xff, 0xff}, {});
+	Widgets::label("Speed: " + std::to_string(vel.y), { 10, 0 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("Height: " + std::to_string((dist - SOI->getR()) / 1000), { 10, 50 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("Angle: " + std::to_string(angle), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
 }
 
 void Vessel::draw() const
 {
 	Planet* SOI{ Core::getScreen<GameScreen*>(Core::game)->getSOI() };
-	SDL_Rect ground{ 0, static_cast<int>(distance({}, pos) - SOI->getR()) + Core::monitor.h / 2, Core::monitor.w, Core::monitor.h };
+	SDL_Rect ground{ 0, static_cast<int>(dist - SOI->getR()) + Core::monitor.h / 2, Core::monitor.w, Core::monitor.h };
 	SDL_SetRenderDrawColor(Core::renderer, SOI->getGroundColor().r, SOI->getGroundColor().g, SOI->getGroundColor().b, 0xff);
 	SDL_RenderFillRect(Core::renderer, &ground);
 
