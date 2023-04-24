@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ControlRoom.cpp" />
+    <ClCompile Include="MapView.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Screens.cpp" />
     <ClCompile Include="Widgets.cpp" />
@@ -146,7 +148,9 @@
     <ClCompile Include="Core.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ControlRoom.h" />
     <ClInclude Include="Core.h" />
+    <ClInclude Include="MapView.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="Widgets.h" />
     <ClInclude Include="Screens.h" />

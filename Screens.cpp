@@ -44,14 +44,17 @@ void WorldsScreen::draw() const
 
 SettingsScreen::SettingsScreen()
 {
+	buttons["play"] = IMG_LoadTexture(Core::renderer, "img/playButton.png");
 	buttons["back"] = IMG_LoadTexture(Core::renderer, "img/backButton.png");
 }
 
 void SettingsScreen::draw() const
 {
+	if (Widgets::button(buttons.at("play"), { Core::monitor.w / 2, Core::monitor.h + 300 }, { 0.5, 0 }))
+		Core::activeScreen = Core::screens[static_cast<int>(Core::ScreenType::game)];
+
 	if (Widgets::button(buttons.at("back"), { Core::monitor.w / 2, Core::monitor.h - 300 }, { 0.5, 0.5 }))
 		Core::activeScreen = Core::screens[static_cast<int>(Core::ScreenType::home)];
-	for ()
 }
 
 GameScreen::GameScreen()

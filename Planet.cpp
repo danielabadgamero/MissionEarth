@@ -8,8 +8,8 @@
 #include "Planet.h"
 #include "Screens.h"
 
-Planet::Planet(std::string name, double radius, double mass, bool atmosphere, double atmosphereHeight, double atmospherePressure, SDL_Color atmosphereColor)
-	: id{ name }, radius{ radius }, mass{ mass }, atmosphere{ atmosphere }, atmosphereHeight{ atmosphereHeight }, atmospherePressure{ atmospherePressure }, atmosphereColor{ atmosphereColor }
+Planet::Planet(std::string name, std::string parent, double r, double m, double a, double e, bool atmosphere, double atmosphereHeight, double atmospherePressure, SDL_Color atmosphereColor)
+	: id{ name }, r{ r }, m{ m }, a{ a }, e{ e }, atmosphere{ atmosphere }, atmosphereHeight{ atmosphereHeight }, atmospherePressure{ atmospherePressure }, atmosphereColor{ atmosphereColor }
 {
 	SDL_Surface* tempSurface{ IMG_Load(("img/planets/" + name + ".png").c_str()) };
 	icon = SDL_CreateTextureFromSurface(Core::renderer, tempSurface);
@@ -27,11 +27,4 @@ Planet::Planet(std::string name, double radius, double mass, bool atmosphere, do
 	totalG /= tempSurface->h * tempSurface->w;
 	totalB /= tempSurface->h * tempSurface->w;
 	groundColor = { static_cast<Uint8>(totalR), static_cast<Uint8>(totalG), static_cast<Uint8>(totalB) };
-}
-
-void Planet::drawIcon(int pos)
-{
-	const int w{ Core::monitor.w / 2 };
-	const int h{ Core::monitor.h / 2 };
-	SDL_Rect rect{ Core::monitor.w / 4 + pos % (w * 256), 200 + pos / (h * 256), 128, 128 };
 }

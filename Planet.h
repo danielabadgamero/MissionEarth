@@ -10,16 +10,17 @@ class Planet
 private:
 	SDL_Texture* icon{};
 	std::string id{};
-	double radius{};
-	double mass{};
+	double r{};
+	double m{};
+	double a{};
+	double e{};
 	SDL_Color groundColor{};
 	bool atmosphere{};
 	double atmosphereHeight{};
 	double atmospherePressure{};
 	SDL_Color atmosphereColor{};
 public:
-	Planet(std::string, double, double, bool = false, double = 0, double = 0, SDL_Color = {});
-	void drawIcon(int);
+	Planet(std::string, std::string, double, double, double, double, bool = false, double = 0, double = 0, SDL_Color = {});
 };
 
 #endif

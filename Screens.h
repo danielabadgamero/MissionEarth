@@ -7,6 +7,10 @@
 
 #include <SDL.h>
 
+#include "ControlRoom.h"
+#include "MapView.h"
+#include "VesselView.h"
+
 class Screen
 {
 protected:
