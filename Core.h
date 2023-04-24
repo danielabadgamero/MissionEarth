@@ -6,9 +6,14 @@
 #include <SDL.h>
 
 #include "Screens.h"
-#include "Planet.h"
 
 constexpr double G{ 6.67428e-11 };
+
+struct Vec2
+{
+	double x{};
+	double y{};
+};
 
 namespace Core
 {
@@ -22,16 +27,6 @@ namespace Core
 		void close();
 	};
 
-	enum ScreenType
-	{
-		home,
-		worlds,
-		settings,
-		game,
-
-		total_screens
-	};
-
 	inline SDL_Window* window{};
 	inline SDL_Renderer* renderer{};
 	inline SDL_DisplayMode monitor{};
@@ -39,10 +34,13 @@ namespace Core
 	inline SDL_Point mouseRel{};
 	inline SDL_FPoint savedPos{};
 	inline SDL_Point clickPos{};
-
-	inline std::vector<Screen*> screens{ total_screens };
-	inline std::vector<Planet*> planets{};
+	
+	inline HomeScreen* homeScreen{};
+	inline SettingsScreen* settingsScreen{};
+	inline WorldsScreen* worldsScreen{};
+	inline GameScreen* gameScreen{};
 	inline Screen* activeScreen{};
+
 	inline bool running{};
 	inline int wheel{};
 	inline int timeWarp{ 1 };
@@ -51,12 +49,6 @@ namespace Core
 	void event();
 	void draw();
 	void quit();
-
-	template <typename T>
-	T getScreen(ScreenType screen)
-	{
-		return static_cast<T>(screens[screen]);
-	}
 }
 
 #endif

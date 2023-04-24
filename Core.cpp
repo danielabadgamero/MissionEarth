@@ -16,12 +16,12 @@ void Core::init(const char* title)
 	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, monitor.w, monitor.h, SDL_WINDOW_BORDERLESS | SDL_WINDOW_SHOWN);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-	screens[static_cast<int>(ScreenType::home)] = new HomeScreen{};
-	screens[static_cast<int>(ScreenType::worlds)] = new WorldsScreen{};
-	screens[static_cast<int>(ScreenType::settings)] = new SettingsScreen{};
-	screens[static_cast<int>(ScreenType::game)] = new GameScreen{};
+	homeScreen = new HomeScreen{};
+	settingsScreen = new SettingsScreen{};
+	worldsScreen = new WorldsScreen{};
+	gameScreen = new GameScreen{};
 
-	activeScreen = screens[static_cast<int>(ScreenType::home)];
+	activeScreen = homeScreen;
 	running = true;
 }
 
@@ -42,7 +42,7 @@ void Core::event()
 				running = false;
 				break;
 			case SDL_SCANCODE_UP:
-				if (getScreen<GameScreen*>(game)->getMap()->getFocused() + 1 != planets.size())
+				if (gameScreen->getMap()->getFocused() + 1 != planets.size())
 					getScreen<GameScreen*>(game)->getMap()->getFocused()++;
 				else
 					getScreen<GameScreen*>(game)->getMap()->getFocused() = 0;
