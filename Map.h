@@ -6,7 +6,7 @@
 
 #include <SDL.h>
 
-class MapView
+class Map
 {
 private:
 	SDL_FRect viewport{};
@@ -15,7 +15,7 @@ private:
 	std::unordered_map<std::string, SDL_Texture*> buttons{};
 public:
 	int& getFocused();
-	MapView();
+	Map();
 	void move(double);
 	void draw() const;
 	SDL_FRect& getViewport();

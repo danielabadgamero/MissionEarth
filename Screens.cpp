@@ -9,6 +9,8 @@
 #include "Screens.h"
 #include "Widgets.h"
 #include "Planet.h"
+#include "Map.h"
+#include "Vessel.h"
 
 HomeScreen::HomeScreen()
 {
@@ -68,7 +70,8 @@ GameScreen::GameScreen()
 	previousTime = new double{};
 	currentTime = new double{};
 	controlRoom = new ControlRoom{};
-	mapView = new MapView{};
+	map = new Map{};
+	vessel = new Vessel{};
 }
 
 void GameScreen::draw() const
@@ -81,10 +84,12 @@ void GameScreen::draw() const
 		controlRoom->draw();
 		break;
 	case View::map:
-		mapView->move(*currentTime - *previousTime);
-		mapView->draw();
+		map->move(*currentTime - *previousTime);
+		map->draw();
 		break;
 	case View::vessel:
+		vessel->move(*currentTime - *previousTime);
+		vessel->draw();
 		break;
 	}
 }
@@ -94,9 +99,9 @@ GameScreen::View& GameScreen::getView()
 	return currentView;
 }
 
-MapView* GameScreen::getMap()
+Map* GameScreen::getMap()
 {
-	return mapView;
+	return map;
 }
 
 Planet*& GameScreen::getSOI()

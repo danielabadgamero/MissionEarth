@@ -140,9 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ControlRoom.cpp" />
-    <ClCompile Include="MapView.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Screens.cpp" />
+    <ClCompile Include="Vessel.cpp" />
     <ClCompile Include="Widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Core.cpp" />
@@ -150,8 +151,9 @@
   <ItemGroup>
     <ClInclude Include="ControlRoom.h" />
     <ClInclude Include="Core.h" />
-    <ClInclude Include="MapView.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Planet.h" />
+    <ClInclude Include="Vessel.h" />
     <ClInclude Include="Widgets.h" />
     <ClInclude Include="Screens.h" />
   </ItemGroup>

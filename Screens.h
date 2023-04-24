@@ -8,8 +8,9 @@
 #include <SDL.h>
 
 #include "ControlRoom.h"
-#include "MapView.h"
+#include "Map.h"
 #include "Planet.h"
+#include "Vessel.h"
 
 class Screen
 {
@@ -58,13 +59,14 @@ private:
 	double* currentTime{};
 	View currentView{};
 	ControlRoom* controlRoom{};
-	MapView* mapView{};
+	Map* map{};
+	Vessel* vessel{};
 	Planet* SOI{};
 public:
 	GameScreen();
 	void draw() const override;
 	View& getView();
-	MapView* getMap();
+	Map* getMap();
 	Planet*& getSOI();
 };
 

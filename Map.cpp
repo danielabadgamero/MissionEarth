@@ -6,12 +6,12 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#include "MapView.h"
+#include "Map.h"
 #include "Planet.h"
 #include "Core.h"
 #include "Widgets.h"
 
-MapView::MapView()
+Map::Map()
 {
 	viewport.w = 150e9f;
 	viewport.h = 150e9f / Core::monitor.w * Core::monitor.h;
@@ -19,7 +19,7 @@ MapView::MapView()
 	buttons["back"] = IMG_LoadTexture(Core::renderer, "img/backButton.png");
 }
 
-void MapView::move(double dt)
+void Map::move(double dt)
 {
 	if (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT)
 	{
@@ -61,7 +61,7 @@ void MapView::move(double dt)
 		planet->move(dt);
 }
 
-void MapView::draw() const
+void Map::draw() const
 {
 	for (Planet*& planet : Core::planets)
 		planet->draw();
@@ -70,12 +70,12 @@ void MapView::draw() const
 		Core::getScreen<GameScreen*>(Core::game)->getView() = GameScreen::View::controlRoom;
 }
 
-SDL_FRect& MapView::getViewport()
+SDL_FRect& Map::getViewport()
 {
 	return viewport;
 }
 
-int& MapView::getFocused()
+int& Map::getFocused()
 {
 	return focusedPlanet;
 }

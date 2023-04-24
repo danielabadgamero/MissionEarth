@@ -8,7 +8,7 @@
 #include "Core.h"
 #include "Planet.h"
 #include "Screens.h"
-#include "MapView.h"
+#include "Map.h"
 
 Planet::Planet(std::string name, std::string parent, double m, double r, double a, double e, bool atmosphere, double atmosphereHeight, double atmospherePressure, SDL_Color atmosphereColor)
 	: id{ name }, m{ m }, r{ r }, a{ a }, e{ e }, atmosphere{ atmosphere }, atmosphereHeight{ atmosphereHeight }, atmospherePressure{ atmospherePressure }, atmosphereColor{ atmosphereColor }
