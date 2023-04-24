@@ -124,9 +124,11 @@ void GameScreen::Vessel::move(double dt)
 	else
 		thrust = 0;
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_A])
-		dir -= 100 * dt;
+		aVel -= 200 * dt;
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_D])
-		dir += 100 * dt;
+		aVel += 200 * dt;
+
+	dir += aVel * dt;
 
 	if (dist + vel.y * dt < SOI->getR())
 		vel.y *= -0.1f, vel.x *= 0.8;
@@ -158,7 +160,7 @@ void GameScreen::Vessel::draw() const
 
 	Widgets::label("V-Speed: " + std::to_string(vel.y), { 10, 0 }, { 0xff, 0xff, 0xff }, {});
 	Widgets::label("H-Speed: " + std::to_string(vel.x), { 10, 50 }, { 0xff, 0xff, 0xff }, {});
-	Widgets::label("Height: " + std::to_string((dist - SOI->getR()) / 1000), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("Height: " + std::to_string((dist - SOI->getR())), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
 	Widgets::label("Angle: " + std::to_string(angle), { 10, 150 }, { 0xff, 0xff, 0xff }, {});
 	Widgets::label("Time: " + std::to_string(timer), { 10, 200 }, { 0xff, 0xff, 0xff }, {});
 }

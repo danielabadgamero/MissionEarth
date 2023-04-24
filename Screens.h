@@ -56,6 +56,7 @@ private:
 		double angle{};
 		double dist{};
 		double timer{};
+		double aVel{};
 		Point vel{};
 		double fuel{};
 		double thrust{};
