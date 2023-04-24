@@ -9,11 +9,7 @@
 
 #include "Planet.h"
 
-struct Vec2
-{
-	double x{};
-	double y{};
-};
+struct Point;
 
 class Screen
 {
@@ -58,7 +54,7 @@ private:
 		double dir{};
 		double angle{};
 		double dist{};
-		Vec2 vel{};
+		Point vel{};
 		double fuel{};
 		double thrust{};
 		SDL_Texture* texture{};
@@ -92,7 +88,7 @@ private:
 
 	static inline double prevTime{};
 	static inline double currTime{};
-	static inline std::vector<Planet*> planets{};
+	static inline std::vector<Planet*> planets;
 	static inline std::unordered_map<std::string, SDL_Texture*> buttons;
 	static inline SDL_Texture* topPanelTexture;
 	static inline Map map{};

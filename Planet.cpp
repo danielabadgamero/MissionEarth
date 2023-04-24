@@ -7,7 +7,6 @@
 
 #include "Core.h"
 #include "Planet.h"
-#include "Screens.h"
 
 Planet::Planet(std::string name, std::string parent, double m, double r, double a, double e, bool atmosphere, double atmosphereHeight, double atmospherePressure, SDL_Color atmosphereColor)
 	: id{ name }, m{ m }, r{ r }, a{ a }, e{ e }, atmosphere{ atmosphere }, atmosphereHeight{ atmosphereHeight }, atmospherePressure{ atmospherePressure }, atmosphereColor{ atmosphereColor }
@@ -41,6 +40,7 @@ Planet::Planet(std::string name, std::string parent, double m, double r, double 
 		double T{ 2 * M_PI * sqrt(pow(a, 3) / (G * p->m)) };
 		n = 2 * M_PI / T;
 	}
+
 	SDL_FreeSurface(tempSurface);
 }
 
@@ -72,8 +72,8 @@ void Planet::draw() const
 	SDL_FRect& viewport{ Core::gameScreen->getMap().getViewport() };
 	SDL_FRect rect
 	{
-		(pos.x - viewport.x + viewport.w / 2.0f) / viewport.w * Core::monitor.w,
-		(pos.y - viewport.y + viewport.h / 2.0f) / viewport.h * Core::monitor.h,
+		static_cast<float>(pos.x - viewport.x + viewport.w / 2.0f) / viewport.w * Core::monitor.w,
+		static_cast<float>(pos.y - viewport.y + viewport.h / 2.0f) / viewport.h * Core::monitor.h,
 		std::clamp(static_cast<float>(r / viewport.w) * Core::monitor.w, 10.0f, FLT_MAX),
 		std::clamp(static_cast<float>(r / viewport.h) * Core::monitor.h, 10.0f, FLT_MAX),
 	};
@@ -85,7 +85,7 @@ void Planet::draw() const
 	SDL_RenderCopyF(Core::renderer, icon, NULL, &rect);
 }
 
-SDL_FPoint& Planet::getPos()
+Point& Planet::getPos()
 {
 	return pos;
 }

@@ -69,6 +69,8 @@ GameScreen::GameScreen()
 	planets.push_back(new Planet{ "sun", "", 1.989e30, 696.34e6, 0, 0 });
 	planets.push_back(new Planet{ "earth", "Sun", 5.9722e24, 6378.137e3, 149.598e9, 0.0167 });
 
+	map = Map{};
+
 	SOI = *std::find_if(planets.begin(), planets.end(), [](Planet* A) { return A->getID() == "Earth"; });
 	vessel.getDist() = SOI->getR();
 }
@@ -204,8 +206,8 @@ void GameScreen::Map::move(double dt)
 
 	if (focusedPlanet)
 	{
-		viewport.x = Core::gameScreen->planets[focusedPlanet]->getPos().x;
-		viewport.y = Core::gameScreen->planets[focusedPlanet]->getPos().y;
+		viewport.x = static_cast<float>(Core::gameScreen->planets[focusedPlanet]->getPos().x);
+		viewport.y = static_cast<float>(Core::gameScreen->planets[focusedPlanet]->getPos().y);
 	}
 
 	for (Planet*& planet : Core::gameScreen->planets)
