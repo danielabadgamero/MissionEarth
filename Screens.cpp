@@ -119,23 +119,23 @@ void GameScreen::Vessel::move(double dt)
 	vel.y -= static_cast<float>(G * SOI->getM() / pow(dist, 2) * dt);
 
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_W])
-		thrust = 100000;
+		thrust = 50000;
 	else
 		thrust = 0;
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_A])
-		dir -= 200 * dt;
+		dir -= 100 * dt;
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_D])
-		dir += 200 * dt;
+		dir += 100 * dt;
 
 	if (dist + vel.y * dt < SOI->getR())
 		vel.y *= -0.1f, vel.x *= 0.8;
 	else
 	{
-		vel.x += sin(dir * M_PI / 180) * thrust / mass;
-		vel.y += cos(dir * M_PI / 180) * thrust / mass;
+		vel.x += sin(dir * M_PI / 180) * thrust / mass * dt;
+		vel.y += cos(dir * M_PI / 180) * thrust / mass * dt + sqrt(pow(dist, 2) + pow(vel.x, 2)) * dt;
 	}
 
-	dist += vel.y * dt;
+	dist += (vel.y - dist) * dt;
 	angle += atan(vel.x * dt / dist) * 180 / M_PI;
 }
 
