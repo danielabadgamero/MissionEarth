@@ -39,9 +39,10 @@ bool Widgets::button(SDL_Texture* texture, SDL_Point pos, SDL_FPoint pivot)
 	if (SDL_PointInRect(&Core::mouse, &rect))
 	{
 		SDL_SetTextureColorMod(texture, 0xa0, 0xa0, 0xa0);
-		if (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT)
+		if ((SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT) && SDL_PointInRect(&Core::clickPos, &rect))
 		{
 			SDL_SetTextureColorMod(texture, 0x60, 0x60, 0x60);
+			Core::clickPos = { 0, 0 };
 			return true;
 		}
 	}

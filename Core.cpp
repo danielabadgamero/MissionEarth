@@ -53,6 +53,10 @@ void Core::event()
 			savedPos.y = static_cast<float>(mouse.y);
 			wheel = e.wheel.y;
 			break;
+		case SDL_MOUSEBUTTONDOWN:
+			clickPos.x = mouse.x;
+			clickPos.y = mouse.y;
+			break;
 		}
 	}
 }

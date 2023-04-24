@@ -38,6 +38,7 @@ namespace Core
 	inline SDL_Point mouse{};
 	inline SDL_Point mouseRel{};
 	inline SDL_FPoint savedPos{};
+	inline SDL_Point clickPos{};
 
 	inline std::vector<Screen*> screens{ total_screens };
 	inline std::vector<Planet*> planets{};

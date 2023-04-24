@@ -15,24 +15,29 @@ MapView::MapView()
 
 void MapView::move(double dt)
 {
-	viewport.x -= static_cast<float>(Core::mouseRel.x) / Core::monitor.w * viewport.w;
-	viewport.y -= static_cast<float>(Core::mouseRel.y) / Core::monitor.h * viewport.h;
+	if (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT)
+	{
+		viewport.x -= static_cast<float>(Core::mouseRel.x) / Core::monitor.w * viewport.w, Core::mouseRel.x = 0;
+		viewport.y -= static_cast<float>(Core::mouseRel.y) / Core::monitor.h * viewport.h, Core::mouseRel.y = 0;
+	}
 
-	zoomFactor = pow(zoomFactor, 0.8f);
+	zoomFactor = pow(zoomFactor, 0.8);
+	if (abs(zoomFactor - 1) < 1e-3)
+		zoomFactor = 1;
 
 	if (Core::wheel > 0)
-		zoomFactor /= 1.1;
-	else
-		zoomFactor *= 1.1;
+		zoomFactor /= 1.1, Core::wheel = 0;
+	else if (Core::wheel < 0)
+		zoomFactor *= 1.1, Core::wheel = 0;
 
-	if (zoomFactor > 1.0f)
+	if (zoomFactor > 1)
 	{
 		viewport.x += static_cast<float>((Core::savedPos.x - Core::monitor.w / 2.0f) / Core::monitor.w * viewport.w * (1 - zoomFactor));
 		viewport.y += static_cast<float>((Core::savedPos.y - Core::monitor.h / 2.0f) / Core::monitor.h * viewport.h * (1 - zoomFactor));
 		viewport.w *= static_cast<float>(zoomFactor);
 		viewport.h *= static_cast<float>(zoomFactor);
 	}
-	else if (zoomFactor < 1.0f)
+	else if (zoomFactor < 1)
 	{
 		viewport.w *= static_cast<float>(zoomFactor);
 		viewport.h *= static_cast<float>(zoomFactor);
