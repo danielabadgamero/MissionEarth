@@ -7,10 +7,13 @@
 
 #include <SDL.h>
 
-#include "Map.h"
 #include "Planet.h"
-#include "Vessel.h"
-#include "ViewMode.h"
+
+struct Vec2
+{
+	double x{};
+	double y{};
+};
 
 class Screen
 {
@@ -64,28 +67,42 @@ private:
 		void draw() const;
 		void move(double);
 	};
-
+	
 	class Map
 	{
 	private:
 		SDL_FRect viewport{};
 		int focusedPlanet{};
 		double zoomFactor{ 1 };
-		std::unordered_map<std::string, SDL_Texture*> buttons{};
 	public:
-		int& getFocused();
 		Map();
 		void move(double);
 		void draw() const;
+		int& getFocused();
 		SDL_FRect& getViewport();
 	};
 
-	SDL_Texture* topPanelTexture{};
-	std::vector<Planet*> planets{};
-	Planet* SOI{};
+	static inline enum class View
+	{
+		controlRoom,
+		map,
+		vessel,
+	} currentView{};
+
+	static inline double prevTime{};
+	static inline double currTime{};
+	static inline std::vector<Planet*> planets{};
+	static inline std::unordered_map<std::string, SDL_Texture*> buttons;
+	static inline SDL_Texture* topPanelTexture;
+	static inline Map map{};
+	static inline Vessel vessel{};
+	static inline Planet* SOI;
 public:
 	GameScreen();
 	void draw() const override;
+	Map& getMap();
+	Vessel& getVessel();
+	std::vector<Planet*>& getPlanets();
 };
 
 #endif

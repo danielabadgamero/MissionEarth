@@ -8,7 +8,6 @@
 #include "Core.h"
 #include "Planet.h"
 #include "Screens.h"
-#include "Map.h"
 
 Planet::Planet(std::string name, std::string parent, double m, double r, double a, double e, bool atmosphere, double atmosphereHeight, double atmospherePressure, SDL_Color atmosphereColor)
 	: id{ name }, m{ m }, r{ r }, a{ a }, e{ e }, atmosphere{ atmosphere }, atmosphereHeight{ atmosphereHeight }, atmospherePressure{ atmospherePressure }, atmosphereColor{ atmosphereColor }
@@ -32,7 +31,7 @@ Planet::Planet(std::string name, std::string parent, double m, double r, double 
 
 	if (!parent.empty())
 	{
-		p = *std::find_if(Core::planets.begin(), Core::planets.end(), [&parent](Planet* A)
+		p = *std::find_if(Core::gameScreen->getPlanets().begin(), Core::gameScreen->getPlanets().end(), [&parent](Planet* A)
 			{
 				return A->getID() == parent;
 			});
@@ -69,7 +68,7 @@ SDL_Texture* Planet::getIcon() const
 
 void Planet::draw() const
 {
-	SDL_FRect& viewport{ Core::getScreen<GameScreen*>(Core::game)->getMap()->getViewport() };
+	SDL_FRect& viewport{ Core::gameScreen->getMap().getViewport() };
 	SDL_FRect rect
 	{
 		(pos.x - viewport.x + viewport.w / 2.0f) / viewport.w * Core::monitor.w,

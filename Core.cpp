@@ -42,16 +42,20 @@ void Core::event()
 				running = false;
 				break;
 			case SDL_SCANCODE_UP:
-				if (gameScreen->getMap()->getFocused() + 1 != planets.size())
-					getScreen<GameScreen*>(game)->getMap()->getFocused()++;
+				if (activeScreen != gameScreen)
+					break;
+				if (gameScreen->getMap().getFocused() + 1 != static_cast<int>(gameScreen->getPlanets().size()))
+					gameScreen->getMap().getFocused()++;
 				else
-					getScreen<GameScreen*>(game)->getMap()->getFocused() = 0;
+					gameScreen->getMap().getFocused() = 0;
 				break;
 			case SDL_SCANCODE_DOWN:
-				if (getScreen<GameScreen*>(game)->getMap()->getFocused() != 0)
-					getScreen<GameScreen*>(game)->getMap()->getFocused()--;
+				if (activeScreen != gameScreen)
+					break;
+				if (gameScreen->getMap().getFocused() != 0)
+					gameScreen->getMap().getFocused()--;
 				else
-					getScreen<GameScreen*>(game)->getMap()->getFocused() = static_cast<int>(planets.size()) - 1;
+					gameScreen->getMap().getFocused() = static_cast<int>(gameScreen->getPlanets().size()) - 1;
 				break;
 			case SDL_SCANCODE_COMMA:
 				if (timeWarp > 1)

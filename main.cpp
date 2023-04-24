@@ -2,7 +2,7 @@
 
 int main(int, char**)
 {
-	Core::init("");
+	Core::init("Mission Earth");
 
 	while (Core::running)
 	{

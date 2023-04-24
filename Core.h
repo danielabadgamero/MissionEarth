@@ -9,12 +9,6 @@
 
 constexpr double G{ 6.67428e-11 };
 
-struct Vec2
-{
-	double x{};
-	double y{};
-};
-
 namespace Core
 {
 	struct Thread
