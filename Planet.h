@@ -10,10 +10,12 @@ class Planet
 private:
 	SDL_Texture* icon{};
 	std::string id{};
+	Planet* parent{};
 	double r{};
 	double m{};
 	double a{};
 	double e{};
+	double n{};
 	SDL_Color groundColor{};
 	bool atmosphere{};
 	double atmosphereHeight{};

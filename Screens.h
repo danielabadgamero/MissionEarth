@@ -48,6 +48,7 @@ class GameScreen : public Screen
 private:
 	ControlRoom controlRoom{};
 	MapView mapView{};
+	std::unordered_map<std::string, Planet*> planets{};
 public:
 	GameScreen();
 	void draw() const override;

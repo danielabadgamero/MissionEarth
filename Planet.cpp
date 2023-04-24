@@ -1,5 +1,5 @@
 #include <string>
-#include <iostream>
+#include <cmath>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -27,4 +27,6 @@ Planet::Planet(std::string name, std::string parent, double r, double m, double 
 	totalG /= tempSurface->h * tempSurface->w;
 	totalB /= tempSurface->h * tempSurface->w;
 	groundColor = { static_cast<Uint8>(totalR), static_cast<Uint8>(totalG), static_cast<Uint8>(totalB) };
+
+	parent = Core::
 }

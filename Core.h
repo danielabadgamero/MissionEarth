@@ -39,7 +39,6 @@ namespace Core
 
 	inline std::vector<Screen*> screens{ static_cast<int>(ScreenType::total_screens) };
 	inline Screen* activeScreen{};
-	inline std::vector<Level*> levels{};
 	inline bool running{};
 
 	void init(const char*);
