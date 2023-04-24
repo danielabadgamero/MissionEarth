@@ -12,15 +12,13 @@
 
 ControlRoom::ControlRoom()
 {
-	SOI = *std::find(Core::getPlanets().begin(), Core::getPlanets().end(), "earth");
-
 	buttons["map"] = IMG_LoadTexture(Core::renderer, "img/mapButton.png");
 }
 
 void ControlRoom::draw() const
 {
-	Widgets::image(SOI->getIcon(), { Core::monitor.w / 3, Core::monitor.h / 2 }, { 0.5, 0.5 });
+	Widgets::image(Core::getScreen<GameScreen*>(Core::game)->getSOI()->getIcon(), {Core::monitor.w / 3, Core::monitor.h / 2}, {0.5, 0.5});
 
 	if (Widgets::button(buttons.at("map"), { Core::monitor.w / 2, Core::monitor.h / 3 }, { 0, 0.5 }))
-		Core::getScreen<GameScreen>(Core::game)->getView() = GameScreen::View::map;
+		Core::getScreen<GameScreen*>(Core::game)->getView() = GameScreen::View::map;
 }

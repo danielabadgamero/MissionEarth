@@ -32,8 +32,10 @@ Planet::Planet(std::string name, std::string parent, double m, double r, double 
 
 	if (!parent.empty())
 	{
-		std::vector<Planet*>& planets{ static_cast<GameScreen*>(Core::screens[static_cast<int>(Core::ScreenType::game)])->getPlanets() };
-		p = *std::find(planets.begin(), planets.end(), parent);
+		p = *std::find_if(Core::planets.begin(), Core::planets.end(), [&parent](Planet* A)
+			{
+				return A->getID() == parent;
+			});
 
 		double T{ 2 * M_PI * sqrt(pow(a, 3) / (G * p->m)) };
 		n = 2 * M_PI / T;
@@ -58,11 +60,6 @@ void Planet::move(double dt)
 	pos.y = static_cast<float>(a * sin(E) * sqrt(1 - pow(e, 2))) + p->pos.y;
 }
 
-bool Planet::operator==(std::string B)
-{
-	return id == B;
-}
-
 SDL_Texture* Planet::getIcon() const
 {
 	return icon;
@@ -70,7 +67,7 @@ SDL_Texture* Planet::getIcon() const
 
 void Planet::draw() const
 {
-	SDL_FRect& viewport{ Core::getScreen<GameScreen>(Core::game)->getMap()->getViewport() };
+	SDL_FRect& viewport{ Core::getScreen<GameScreen*>(Core::game)->getMap()->getViewport() };
 	SDL_FRect rect
 	{
 		(pos.x - viewport.x + viewport.w / 2.0f) / viewport.w * Core::monitor.w,
@@ -89,4 +86,9 @@ void Planet::draw() const
 SDL_FPoint& Planet::getPos()
 {
 	return pos;
+}
+
+std::string& Planet::getID()
+{
+	return id;
 }

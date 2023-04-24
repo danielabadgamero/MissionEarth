@@ -40,17 +40,21 @@ namespace Core
 	inline SDL_FPoint savedPos{};
 
 	inline std::vector<Screen*> screens{ total_screens };
+	inline std::vector<Planet*> planets{};
 	inline Screen* activeScreen{};
 	inline bool running{};
 	inline int wheel{};
 
-	std::vector<Planet*>& getPlanets();
-	template <typename T>
-	T* getScreen(ScreenType);
 	void init(const char*);
 	void event();
 	void draw();
 	void quit();
+
+	template <typename T>
+	T getScreen(ScreenType screen)
+	{
+		return static_cast<T>(screens[screen]);
+	}
 }
 
 #endif

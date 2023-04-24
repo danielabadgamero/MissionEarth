@@ -59,13 +59,13 @@ private:
 	View currentView{};
 	ControlRoom* controlRoom{};
 	MapView* mapView{};
-	std::vector<Planet*> planets{};
+	Planet* SOI{};
 public:
 	GameScreen();
 	void draw() const override;
-	std::vector<Planet*>& getPlanets();
 	View& getView();
 	MapView* getMap();
+	Planet*& getSOI();
 };
 
 #endif

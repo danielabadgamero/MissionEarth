@@ -9,8 +9,8 @@
 
 MapView::MapView()
 {
-	viewport.w = 150e9;
-	viewport.h = 150e9 / Core::monitor.w * Core::monitor.h;
+	viewport.w = 150e9f;
+	viewport.h = 150e9f / Core::monitor.w * Core::monitor.h;
 }
 
 void MapView::move(double dt)
@@ -42,17 +42,17 @@ void MapView::move(double dt)
 
 	if (focusedPlanet)
 	{
-		viewport.x = Core::getPlanets()[focusedPlanet]->getPos().x;
-		viewport.y = Core::getPlanets()[focusedPlanet]->getPos().y;
+		viewport.x = Core::planets[focusedPlanet]->getPos().x;
+		viewport.y = Core::planets[focusedPlanet]->getPos().y;
 	}
 
-	for (Planet*& planet : Core::getPlanets())
+	for (Planet*& planet : Core::planets)
 		planet->move(dt);
 }
 
 void MapView::draw() const
 {
-	for (Planet*& planet : Core::getPlanets())
+	for (Planet*& planet : Core::planets)
 		planet->draw();
 }
 

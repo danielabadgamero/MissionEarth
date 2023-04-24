@@ -10,7 +10,6 @@
 class ControlRoom
 {
 private:
-	Planet* SOI{};
 	std::unordered_map<std::string, SDL_Texture*> buttons{};
 public:
 	ControlRoom();

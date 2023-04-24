@@ -86,14 +86,3 @@ void Core::Thread::close()
 {
 	SDL_WaitThread(thread, NULL);
 }
-
-std::vector<Planet*>& Core::getPlanets()
-{
-	return static_cast<GameScreen*>(screens[ScreenType::game])->getPlanets();
-}
-
-template <typename T>
-T* Core::getScreen(ScreenType screen)
-{
-	return static_cast<T*>(screens[screen]);
-}
