@@ -92,3 +92,13 @@ std::string& Planet::getID()
 {
 	return id;
 }
+
+double Planet::getR() const
+{
+	return r;
+}
+
+double Planet::getM() const
+{
+	return m;
+}
