@@ -82,6 +82,7 @@ private:
 		Map();
 		void move(double);
 		void draw();
+		void clearError();
 		Planet*& getFocused();
 		Rect& getViewport();
 		std::vector<SDL_Rect> getPlanetRects() const;

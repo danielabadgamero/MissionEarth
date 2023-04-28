@@ -8,8 +8,8 @@
 #include "Core.h"
 #include "Planet.h"
 
-Planet::Planet(std::string name, std::string parent, double m, double r, double a, double e, bool atmosphere, double atmosphereHeight, double atmospherePressure, SDL_Color atmosphereColor)
-	: id{ name }, m{ m }, r{ r }, a{ a }, e{ e }, atmosphere{ atmosphere }, atmosphereHeight{ atmosphereHeight }, atmospherePressure{ atmospherePressure }, atmosphereColor{ atmosphereColor }
+Planet::Planet(std::string name, std::string parent, double m, double r, double a, double e, bool atmosphere, double surfaceDensity, double scaleHeight, SDL_Color atmosphereColor)
+	: id{ name }, m{ m }, r{ r }, a{ a }, e{ e }, atmosphere{ atmosphere }, surfaceDensity{ surfaceDensity }, scaleHeight{ scaleHeight }, atmosphereColor{ atmosphereColor }
 {
 	SDL_Surface* tempSurface{ IMG_Load(("img/planets/" + name + ".png").c_str()) };
 	icon = SDL_CreateTextureFromSurface(Core::renderer, tempSurface);
@@ -107,11 +107,6 @@ Point& Planet::getPos()
 std::string& Planet::getID()
 {
 	return id;
-}
-
-double Planet::getR() const
-{
-	return r;
 }
 
 double Planet::getM() const

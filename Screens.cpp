@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <numbers>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -69,14 +70,14 @@ GameScreen::GameScreen()
 	topPanelTexture = IMG_LoadTexture(Core::renderer, "img/topPanelInfo.png");
 
 	planets.push_back(new Planet{ "sun", "", 1.989e30, 696.34e6, 0, 0 });
-	planets.push_back(new Planet{ "earth", "Sun", 5.9722e24, 6378.137e3, 149.598e9, 0.0167 });
+	planets.push_back(new Planet{ "earth", "Sun", 5.9722e24, 6378.137e3, 149.598e9, 0.0167, true, 1.217, 8.5, { 0xc0, 0xd2, 0xda } });
 	planets.push_back(new Planet{ "moon", "Earth", 0.07346e24, 1738.1e3, 0.3844e9, 0.0549 });
 
 	map = Map{};
 	vessel = Vessel{};
 
 	SOI = *std::find_if(planets.begin(), planets.end(), [](Planet* A) { return A->getID() == "Earth"; });
-	vessel.getDist() = SOI->getR() + 100;
+	vessel.getDist() = SOI->r + 100;
 }
 
 void GameScreen::draw() const
@@ -131,9 +132,7 @@ void GameScreen::Vessel::move(double dt)
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_D])
 		aVel += 200 * dt;
 
-	dir += aVel * dt;
-
-	if (dist + vel.y * dt < SOI->getR())
+	if (dist + vel.y * dt < SOI->r)
 		vel.y *= -0.1f, vel.x *= 0.8;
 	else
 	{
@@ -141,13 +140,44 @@ void GameScreen::Vessel::move(double dt)
 		vel.y += cos(dir * M_PI / 180) * thrust / mass * dt + (sqrt(pow(dist, 2) + pow(vel.x, 2)) - dist) * dt;
 	}
 
+	if (SOI->atmosphere)
+	{
+		double accelX{ 0.25 * pow(vel.x, 2) * (SOI->surfaceDensity / pow(std::numbers::e, (dist - SOI->r) / (SOI->scaleHeight * 1000))) / mass };
+		double accelY{ 0.25 * pow(vel.y, 2) * (SOI->surfaceDensity / pow(std::numbers::e, (dist - SOI->r) / (SOI->scaleHeight * 1000))) / mass };
+		double accelA{ aVel * (SOI->surfaceDensity / pow(std::numbers::e, (dist - SOI->r) / (SOI->scaleHeight * 1000))) / mass };
+		if (vel.x > 0)
+			vel.x -= accelX;
+		else
+			vel.x += accelX;
+		if (vel.y > 0)
+			vel.y -= accelY;
+		else
+			vel.y += accelY;
+		if (aVel > 0)
+			aVel -= accelA;
+		else
+			aVel += accelA;
+	}
+
 	dist += vel.y * dt;
+	dir += aVel * dt;
 	angle += atan(vel.x * dt / dist) * 180 / M_PI;
 }
 
 void GameScreen::Vessel::draw() const
 {
-	SDL_Rect ground{ 0, static_cast<int>(dist - SOI->getR()) + Core::monitor.h / 2, Core::monitor.w, Core::monitor.h };
+	if (SOI->atmosphere)
+	{
+		SDL_Rect background{ 0, 0, Core::monitor.w, Core::monitor.h };
+		double density{ SOI->surfaceDensity / pow(std::numbers::e, (dist - SOI->r) / (SOI->scaleHeight * 1000)) };
+		Widgets::label("Density: " + std::to_string(density), { 10, 250 }, { 0xff, 0xff, 0xff }, {});
+		SDL_SetRenderDrawBlendMode(Core::renderer, SDL_BLENDMODE_BLEND);
+		SDL_SetRenderDrawColor(Core::renderer, SOI->atmosphereColor.r, SOI->atmosphereColor.g, SOI->atmosphereColor.b,
+			static_cast<Uint8>(density / SOI->surfaceDensity * 0xff));
+		SDL_RenderFillRect(Core::renderer, &background);
+	}
+
+	SDL_Rect ground{ 0, static_cast<int>(dist - SOI->r) + Core::monitor.h / 2, Core::monitor.w, Core::monitor.h };
 	SDL_SetRenderDrawColor(Core::renderer, SOI->getGroundColor().r, SOI->getGroundColor().g, SOI->getGroundColor().b, 0xff);
 	SDL_RenderFillRect(Core::renderer, &ground);
 
@@ -163,14 +193,14 @@ void GameScreen::Vessel::draw() const
 
 	Widgets::label("V-Speed: " + std::to_string(vel.y), { 10, 0 }, { 0xff, 0xff, 0xff }, {});
 	Widgets::label("H-Speed: " + std::to_string(vel.x), { 10, 50 }, { 0xff, 0xff, 0xff }, {});
-	Widgets::label("Height: " + std::to_string((dist - SOI->getR())), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
+	Widgets::label("Height: " + std::to_string(dist - SOI->r), { 10, 100 }, { 0xff, 0xff, 0xff }, {});
 	Widgets::label("Angle: " + std::to_string(angle), { 10, 150 }, { 0xff, 0xff, 0xff }, {});
 	Widgets::label("Time: " + std::to_string(timer), { 10, 200 }, { 0xff, 0xff, 0xff }, {});
 }
 
 void GameScreen::Vessel::travel()
 {
-	dist = SOI->getR() * 2;
+	dist = SOI->r * 2;
 	vel.y = 0;
 	vel.x = 10;
 }
@@ -249,8 +279,14 @@ void GameScreen::Map::draw()
 		if (Widgets::button(buttons["travel"], { 20, 90 }, {}))
 			if (focusedPlanet == SOI)
 				error = "Destination is the same as the current SOI.";
-			else if (abs(vessel.getSpeed()) < SOI->getEscapeVel(vessel.getDist()) && focusedPlanet->getSOI() != SOI)
-				error = "Vessel speed is below escape velocity (" + std::to_string(SOI->getEscapeVel(vessel.getDist())) + "m/s).";
+			else if (abs(vessel.getSpeed()) < SOI->getEscapeVel(vessel.getDist()))
+				if (focusedPlanet->getSOI() == SOI)
+				{
+					if (vessel.getDist() < focusedPlanet->a)
+						error = "Not high enough to complete transfer (" + std::to_string(static_cast<int>(focusedPlanet->a / 1000)) + "km required).";
+				}
+				else
+					error = "Vessel speed is below escape velocity (" + std::to_string(SOI->getEscapeVel(vessel.getDist())) + "m/s).";
 			else
 			{
 				error.clear();
@@ -282,6 +318,11 @@ Rect& GameScreen::Map::getViewport()
 Planet*& GameScreen::Map::getFocused()
 {
 	return focusedPlanet;
+}
+
+void GameScreen::Map::clearError()
+{
+	error.clear();
 }
 
 GameScreen::Map& GameScreen::getMap()

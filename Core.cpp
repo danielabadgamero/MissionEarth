@@ -71,6 +71,7 @@ void Core::event()
 			clickPos.y = mouse.y;
 			if (activeScreen == gameScreen)
 			{
+				gameScreen->getMap().clearError();
 				std::vector<SDL_Rect> planetRects{ gameScreen->getMap().getPlanetRects() };
 				for (int i{}; i != planetRects.size(); i++)
 					if (SDL_PointInRect(&clickPos, &planetRects[i]))
