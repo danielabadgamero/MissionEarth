@@ -126,5 +126,7 @@ SDL_Color& Planet::getGroundColor()
 
 double Planet::getEscapeVel(double radius) const
 {
-	return sqrt((2 * G * m) / radius);
+	double top{ 2 * G * m };
+	double escapeVel{ sqrt(top / radius) };
+	return escapeVel;
 }

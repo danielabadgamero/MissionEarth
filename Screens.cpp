@@ -250,7 +250,7 @@ void GameScreen::Map::draw()
 			if (focusedPlanet == SOI)
 				error = "Destination is the same as the current SOI.";
 			else if (abs(vessel.getSpeed()) < SOI->getEscapeVel(vessel.getDist()) && focusedPlanet->getSOI() != SOI)
-				error = "Vessel speed is below escape velocity (" + std::to_string(focusedPlanet->getEscapeVel(vessel.getDist())) + "m/s).";
+				error = "Vessel speed is below escape velocity (" + std::to_string(SOI->getEscapeVel(vessel.getDist())) + "m/s).";
 			else
 			{
 				error.clear();
