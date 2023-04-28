@@ -1,3 +1,5 @@
+#include <vector>
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -41,22 +43,6 @@ void Core::event()
 			case SDL_SCANCODE_ESCAPE:
 				running = false;
 				break;
-			case SDL_SCANCODE_UP:
-				if (activeScreen != gameScreen)
-					break;
-				if (gameScreen->getMap().getFocused() + 1 != static_cast<int>(gameScreen->getPlanets().size()))
-					gameScreen->getMap().getFocused()++;
-				else
-					gameScreen->getMap().getFocused() = 0;
-				break;
-			case SDL_SCANCODE_DOWN:
-				if (activeScreen != gameScreen)
-					break;
-				if (gameScreen->getMap().getFocused() != 0)
-					gameScreen->getMap().getFocused()--;
-				else
-					gameScreen->getMap().getFocused() = static_cast<int>(gameScreen->getPlanets().size()) - 1;
-				break;
 			case SDL_SCANCODE_COMMA:
 				if (timeWarp > 1)
 					timeWarp /= 10;
@@ -79,6 +65,17 @@ void Core::event()
 		case SDL_MOUSEBUTTONDOWN:
 			clickPos.x = mouse.x;
 			clickPos.y = mouse.y;
+			if (activeScreen == gameScreen)
+			{
+				gameScreen->getMap().getFocused() = 0;
+				std::vector<SDL_Rect> planetRects{ gameScreen->getMap().getPlanetRects() };
+				for (std::vector<SDL_Rect>::iterator rect{ planetRects.begin() }; rect != planetRects.end(); rect++)
+					if (SDL_PointInRect(&clickPos, &(*rect)))
+					{
+						gameScreen->getMap().getFocused() = static_cast<int>(std::distance(planetRects.begin(), rect));
+						break;
+					}
+			}
 			break;
 		}
 	}

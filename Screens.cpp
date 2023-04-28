@@ -176,6 +176,8 @@ GameScreen::Map::Map()
 {
 	viewport.w = 150e9f;
 	viewport.h = 150e9f / Core::monitor.w * Core::monitor.h;
+
+	planetRects.resize(planets.size());
 }
 
 void GameScreen::Map::move(double dt)
@@ -223,27 +225,21 @@ void GameScreen::Map::move(double dt)
 void GameScreen::Map::draw()
 {
 	SDL_Rect rect{};
-	for (Planet*& planet : planets)
-		if (rect = planet->draw(); SDL_PointInRect(&Core::clickPos, &rect) && (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT))
-		{
-			selectedPlanet = planet;
-			break;
-		}
-		else if (planet == planets.back() && !SDL_PointInRect(&Core::clickPos, &rect))
-			selectedPlanet = nullptr;
+	for (int i{}; i != planets.size(); i++)
+		planetRects[i] = planets[i]->draw();
 
-	if (selectedPlanet)
+	if (focusedPlanet)
 	{
-		rect.x -= 10;
-		rect.y -= 10;
-		rect.w += 20;
-		rect.h += 20;
-		SDL_SetRenderDrawColor(Core::renderer, 0xff, 0x00, 0x00, 0xff);
-		SDL_RenderDrawRect(Core::renderer, &rect);
+		Widgets::label(planets[focusedPlanet]->getID(), { 10, 10 }, { 0xff, 0x00, 0x00 }, {});
 	}
 
 	if (Widgets::button(buttons.at("back"), { 50, Core::monitor.h - 50 }, { 0, 1 }))
 		currentView = View::controlRoom;
+}
+
+std::vector<SDL_Rect> GameScreen::Map::getPlanetRects() const
+{
+	return planetRects;
 }
 
 Rect& GameScreen::Map::getViewport()

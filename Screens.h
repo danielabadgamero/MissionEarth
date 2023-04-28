@@ -73,7 +73,7 @@ private:
 	private:
 		Rect viewport{};
 		int focusedPlanet{};
-		Planet* selectedPlanet{};
+		std::vector<SDL_Rect> planetRects{};
 		double zoomFactor{ 1 };
 	public:
 		Map();
@@ -81,6 +81,7 @@ private:
 		void draw();
 		int& getFocused();
 		Rect& getViewport();
+		std::vector<SDL_Rect> getPlanetRects() const;
 	};
 
 	static inline enum class View
