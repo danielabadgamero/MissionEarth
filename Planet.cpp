@@ -74,8 +74,8 @@ SDL_Rect Planet::draw() const
 	{
 		static_cast<int>((pos.x - viewport.x + viewport.w / 2) / viewport.w * Core::monitor.w),
 		static_cast<int>((pos.y - viewport.y + viewport.h / 2) / viewport.h * Core::monitor.h),
-		std::clamp(static_cast<int>(r / viewport.w) * Core::monitor.w, 10, INT_MAX),
-		std::clamp(static_cast<int>(r / viewport.h) * Core::monitor.h, 10, INT_MAX),
+		std::clamp(static_cast<int>(r / viewport.w * Core::monitor.w), 10, INT_MAX),
+		std::clamp(static_cast<int>(r / viewport.h * Core::monitor.h), 10, INT_MAX),
 	};
 	if (id == "Saturn")
 		rect.w *= 2, rect.h *= 2;

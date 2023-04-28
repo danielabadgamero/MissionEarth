@@ -229,11 +229,15 @@ void GameScreen::Map::draw()
 			selectedPlanet = planet;
 			break;
 		}
-		else if (planet == planets.back())
+		else if (planet == planets.back() && !SDL_PointInRect(&Core::clickPos, &rect))
 			selectedPlanet = nullptr;
 
 	if (selectedPlanet)
 	{
+		rect.x -= 10;
+		rect.y -= 10;
+		rect.w += 20;
+		rect.h += 20;
 		SDL_SetRenderDrawColor(Core::renderer, 0xff, 0x00, 0x00, 0xff);
 		SDL_RenderDrawRect(Core::renderer, &rect);
 	}
