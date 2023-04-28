@@ -83,6 +83,14 @@ SDL_Rect Planet::draw() const
 	rect.y -= rect.h / 2;
 
 	SDL_RenderCopy(Core::renderer, icon, NULL, &rect);
+
+	if (id == "Saturn")
+	{
+		rect.w /= 2;
+		rect.h /= 2;
+		rect.x += rect.w / 2;
+		rect.y += rect.h / 2;
+	}
 	return rect;
 }
 

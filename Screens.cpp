@@ -222,11 +222,21 @@ void GameScreen::Map::move(double dt)
 
 void GameScreen::Map::draw()
 {
+	SDL_Rect rect{};
 	for (Planet*& planet : planets)
-		if (SDL_PointInRect(&Core::clickPos, &planet->draw()) && (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT))
+		if (rect = planet->draw(); SDL_PointInRect(&Core::clickPos, &rect) && (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT))
+		{
 			selectedPlanet = planet;
+			break;
+		}
 		else if (planet == planets.back())
 			selectedPlanet = nullptr;
+
+	if (selectedPlanet)
+	{
+		SDL_SetRenderDrawColor(Core::renderer, 0xff, 0x00, 0x00, 0xff);
+		SDL_RenderDrawRect(Core::renderer, &rect);
+	}
 
 	if (Widgets::button(buttons.at("back"), { 50, Core::monitor.h - 50 }, { 0, 1 }))
 		currentView = View::controlRoom;
