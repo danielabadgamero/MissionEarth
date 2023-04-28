@@ -10,6 +10,8 @@
 #include "Widgets.h"
 #include "Planet.h"
 
+struct Point;
+
 HomeScreen::HomeScreen()
 {
 	title = IMG_LoadTexture(Core::renderer, "img/title.png");
@@ -218,10 +220,13 @@ void GameScreen::Map::move(double dt)
 		planet->move(dt);
 }
 
-void GameScreen::Map::draw() const
+void GameScreen::Map::draw()
 {
-	for (Planet*& planet : Core::gameScreen->planets)
-		planet->draw();
+	for (Planet*& planet : planets)
+		if (SDL_PointInRect(&Core::clickPos, &planet->draw()) && (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LEFT))
+			selectedPlanet = planet;
+		else if (planet == planets.back())
+			selectedPlanet = nullptr;
 
 	if (Widgets::button(buttons.at("back"), { 50, Core::monitor.h - 50 }, { 0, 1 }))
 		currentView = View::controlRoom;

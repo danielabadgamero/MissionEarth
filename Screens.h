@@ -73,11 +73,12 @@ private:
 	private:
 		Rect viewport{};
 		int focusedPlanet{};
+		Planet* selectedPlanet{};
 		double zoomFactor{ 1 };
 	public:
 		Map();
 		void move(double);
-		void draw() const;
+		void draw();
 		int& getFocused();
 		Rect& getViewport();
 	};

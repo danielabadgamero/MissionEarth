@@ -39,7 +39,7 @@ private:
 	Point pos{};
 public:
 	void move(double);
-	void draw() const;
+	SDL_Rect draw() const;
 	Point& getPos();
 	std::string& getID();
 	Planet(std::string, std::string, double, double, double, double, bool = false, double = 0, double = 0, SDL_Color = {});

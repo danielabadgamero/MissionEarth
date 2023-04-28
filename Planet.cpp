@@ -67,22 +67,23 @@ SDL_Texture* Planet::getIcon() const
 	return icon;
 }
 
-void Planet::draw() const
+SDL_Rect Planet::draw() const
 {
 	Rect& viewport{ Core::gameScreen->getMap().getViewport() };
-	SDL_FRect rect
+	SDL_Rect rect
 	{
-		static_cast<float>((pos.x - viewport.x + viewport.w / 2) / viewport.w * Core::monitor.w),
-		static_cast<float>((pos.y - viewport.y + viewport.h / 2) / viewport.h * Core::monitor.h),
-		std::clamp(static_cast<float>(r / viewport.w) * Core::monitor.w, 10.0f, FLT_MAX),
-		std::clamp(static_cast<float>(r / viewport.h) * Core::monitor.h, 10.0f, FLT_MAX),
+		static_cast<int>((pos.x - viewport.x + viewport.w / 2) / viewport.w * Core::monitor.w),
+		static_cast<int>((pos.y - viewport.y + viewport.h / 2) / viewport.h * Core::monitor.h),
+		std::clamp(static_cast<int>(r / viewport.w) * Core::monitor.w, 10, INT_MAX),
+		std::clamp(static_cast<int>(r / viewport.h) * Core::monitor.h, 10, INT_MAX),
 	};
 	if (id == "Saturn")
-		rect.w *= 2.2f, rect.h *= 2.2f;
+		rect.w *= 2, rect.h *= 2;
 	rect.x -= rect.w / 2;
 	rect.y -= rect.h / 2;
 
-	SDL_RenderCopyF(Core::renderer, icon, NULL, &rect);
+	SDL_RenderCopy(Core::renderer, icon, NULL, &rect);
+	return rect;
 }
 
 Point& Planet::getPos()
