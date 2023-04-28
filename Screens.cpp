@@ -124,7 +124,7 @@ void GameScreen::Vessel::move(double dt)
 	vel.y -= G * SOI->getM() / pow(dist, 2) * dt;
 
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_W])
-		thrust = 100000;
+		thrust = 1000000;
 	else
 		thrust = 0;
 	if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_A])
@@ -170,8 +170,8 @@ void GameScreen::Vessel::draw() const
 	{
 		SDL_Rect background{ 0, 0, Core::monitor.w, Core::monitor.h };
 		double density{ SOI->surfaceDensity / pow(std::numbers::e, (dist - SOI->r) / (SOI->scaleHeight * 1000)) };
-		Widgets::label("Density: " + std::to_string(density), { 10, 250 }, { 0xff, 0xff, 0xff }, {});
 		SDL_SetRenderDrawBlendMode(Core::renderer, SDL_BLENDMODE_BLEND);
+		Widgets::label("Density: " + std::to_string(density), { 10, 250 }, { 0xff, 0xff, 0xff }, {});
 		SDL_SetRenderDrawColor(Core::renderer, SOI->atmosphereColor.r, SOI->atmosphereColor.g, SOI->atmosphereColor.b,
 			static_cast<Uint8>(density / SOI->surfaceDensity * 0xff));
 		SDL_RenderFillRect(Core::renderer, &background);
