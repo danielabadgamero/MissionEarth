@@ -66,20 +66,23 @@ private:
 		void draw() const;
 		void move(double);
 		double& getDist();
+		double getSpeed() const;
+		void travel();
 	};
 	
 	class Map
 	{
 	private:
 		Rect viewport{};
-		int focusedPlanet{};
+		Planet* focusedPlanet{};
 		std::vector<SDL_Rect> planetRects{};
 		double zoomFactor{ 1 };
+		std::string error{};
 	public:
 		Map();
 		void move(double);
 		void draw();
-		int& getFocused();
+		Planet*& getFocused();
 		Rect& getViewport();
 		std::vector<SDL_Rect> getPlanetRects() const;
 	};

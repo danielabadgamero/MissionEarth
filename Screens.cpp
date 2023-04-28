@@ -70,6 +70,7 @@ GameScreen::GameScreen()
 
 	planets.push_back(new Planet{ "sun", "", 1.989e30, 696.34e6, 0, 0 });
 	planets.push_back(new Planet{ "earth", "Sun", 5.9722e24, 6378.137e3, 149.598e9, 0.0167 });
+	planets.push_back(new Planet{ "moon", "Earth", 0.07346e24, 1738.1e3, 0.3844e9, 0.0549 });
 
 	map = Map{};
 	vessel = Vessel{};
@@ -167,9 +168,21 @@ void GameScreen::Vessel::draw() const
 	Widgets::label("Time: " + std::to_string(timer), { 10, 200 }, { 0xff, 0xff, 0xff }, {});
 }
 
+void GameScreen::Vessel::travel()
+{
+	dist = SOI->getR() * 2;
+	vel.y = 0;
+	vel.x = 10;
+}
+
 double& GameScreen::Vessel::getDist()
 {
 	return dist;
+}
+
+double GameScreen::Vessel::getSpeed() const
+{
+	return vel.x;
 }
 
 GameScreen::Map::Map()
@@ -178,6 +191,7 @@ GameScreen::Map::Map()
 	viewport.h = 150e9f / Core::monitor.w * Core::monitor.h;
 
 	planetRects.resize(planets.size());
+	buttons["travel"] = IMG_LoadTexture(Core::renderer, "img/travelButton.png");
 }
 
 void GameScreen::Map::move(double dt)
@@ -214,8 +228,8 @@ void GameScreen::Map::move(double dt)
 
 	if (focusedPlanet)
 	{
-		viewport.x = Core::gameScreen->planets[focusedPlanet]->getPos().x;
-		viewport.y = Core::gameScreen->planets[focusedPlanet]->getPos().y;
+		viewport.x = focusedPlanet->getPos().x;
+		viewport.y = focusedPlanet->getPos().y;
 	}
 
 	for (Planet*& planet : Core::gameScreen->planets)
@@ -230,7 +244,25 @@ void GameScreen::Map::draw()
 
 	if (focusedPlanet)
 	{
-		Widgets::label(planets[focusedPlanet]->getID(), { 10, 10 }, { 0xff, 0x00, 0x00 }, {});
+		Widgets::setFont("C:\\Windows\\Fonts\\AGENCYB.TTF", 60);
+		Widgets::label(focusedPlanet->getID(), { 20, 20 }, { 0x30, 0x30, 0xff }, {});
+		if (Widgets::button(buttons["travel"], { 20, 90 }, {}))
+			if (focusedPlanet == SOI)
+				error = "Destination is the same as the current SOI.";
+			else if (abs(vessel.getSpeed()) < focusedPlanet->getEscapeVel(vessel.getDist()) && focusedPlanet->getSOI() != SOI)
+				error = "Vessel speed is below escape velocity (" + std::to_string(focusedPlanet->getEscapeVel(vessel.getDist())) + "m/s).";
+			else
+			{
+				error.clear();
+				SOI = focusedPlanet;
+				vessel.travel();
+			}
+
+		if (!error.empty())
+		{
+			Widgets::setFont("C:\\Windows\\Fonts\\AGENCYR.TTF", 30);
+			Widgets::label("Can't travel: " + error, { Core::monitor.w / 2, Core::monitor.h / 2 }, { 0xff, 0x30, 0x30 }, { 0.5f, 0.5f });
+		}
 	}
 
 	if (Widgets::button(buttons.at("back"), { 50, Core::monitor.h - 50 }, { 0, 1 }))
@@ -247,7 +279,7 @@ Rect& GameScreen::Map::getViewport()
 	return viewport;
 }
 
-int& GameScreen::Map::getFocused()
+Planet*& GameScreen::Map::getFocused()
 {
 	return focusedPlanet;
 }

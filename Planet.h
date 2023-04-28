@@ -39,6 +39,7 @@ private:
 	Point pos{};
 public:
 	void move(double);
+	double getEscapeVel(double) const;
 	SDL_Rect draw() const;
 	Point& getPos();
 	std::string& getID();
@@ -46,6 +47,7 @@ public:
 	SDL_Texture* getIcon() const;
 	double getR() const;
 	double getM() const;
+	Planet* getSOI() const;
 	SDL_Color& getGroundColor();
 };
 

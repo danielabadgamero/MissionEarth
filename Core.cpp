@@ -50,6 +50,10 @@ void Core::event()
 			case SDL_SCANCODE_PERIOD:
 				timeWarp *= 10;
 				break;
+			case SDL_SCANCODE_SPACE:
+				if (activeScreen == gameScreen)
+					gameScreen->getMap().getFocused() = nullptr;
+				break;
 			}
 			break;
 		case SDL_MOUSEMOTION:
@@ -67,12 +71,11 @@ void Core::event()
 			clickPos.y = mouse.y;
 			if (activeScreen == gameScreen)
 			{
-				gameScreen->getMap().getFocused() = 0;
 				std::vector<SDL_Rect> planetRects{ gameScreen->getMap().getPlanetRects() };
-				for (std::vector<SDL_Rect>::iterator rect{ planetRects.begin() }; rect != planetRects.end(); rect++)
-					if (SDL_PointInRect(&clickPos, &(*rect)))
+				for (int i{}; i != planetRects.size(); i++)
+					if (SDL_PointInRect(&clickPos, &planetRects[i]))
 					{
-						gameScreen->getMap().getFocused() = static_cast<int>(std::distance(planetRects.begin(), rect));
+						gameScreen->getMap().getFocused() = gameScreen->getPlanets()[i];
 						break;
 					}
 			}

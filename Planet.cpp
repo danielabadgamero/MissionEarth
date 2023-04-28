@@ -94,6 +94,11 @@ SDL_Rect Planet::draw() const
 	return rect;
 }
 
+Planet* Planet::getSOI() const
+{
+	return p;
+}
+
 Point& Planet::getPos()
 {
 	return pos;
@@ -117,4 +122,9 @@ double Planet::getM() const
 SDL_Color& Planet::getGroundColor()
 {
 	return groundColor;
+}
+
+double Planet::getEscapeVel(double radius) const
+{
+	return sqrt((2 * G * m) / radius);
 }
